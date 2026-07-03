@@ -1,13 +1,20 @@
 import { NextResponse } from "next/server";
-import { readDb, writeDb, CafeRequest } from "@/lib/db";
+import { runTransaction, CafeRequest } from "@/lib/db";
 
 // GET: List active requests and history
 export async function GET() {
-  const db = readDb();
-  return NextResponse.json({
-    requests: db.requests,
-    history: db.history
-  });
+  try {
+    const data = await runTransaction((db) => {
+      return {
+        requests: db.requests,
+        history: db.history
+      };
+    }, true); // readonly
+    return NextResponse.json(data);
+  } catch (e) {
+    console.error("GET requests error:", e);
+    return NextResponse.json({ error: "Unable to load requests." }, { status: 500 });
+  }
 }
 
 // POST: Submit a new request from a table
@@ -18,28 +25,28 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing tableId or type" }, { status: 400 });
     }
 
-    const db = readDb();
-    
-    // Find table name
-    const table = db.tables.find(t => t.id === String(tableId));
-    const tableName = table ? table.name : `Table ${tableId}`;
+    const newRequest = await runTransaction((db) => {
+      // Find table name
+      const table = db.tables.find(t => t.id === String(tableId));
+      const tableName = table ? table.name : `Table ${tableId}`;
 
-    const newRequest: CafeRequest = {
-      id: `req-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
-      tableId: String(tableId),
-      tableName,
-      type,
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
-      status: "pending"
-    };
+      const requestItem: CafeRequest = {
+        id: `req-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+        tableId: String(tableId),
+        tableName,
+        type,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+        status: "pending"
+      };
 
-    db.requests.unshift(newRequest); // Add to the top of the queue
-    writeDb(db);
+      db.requests.unshift(requestItem); // Add to the top of the queue
+      return requestItem;
+    });
 
     return NextResponse.json(newRequest);
   } catch (e) {
     console.error("Error creating request:", e);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+    return NextResponse.json({ error: "Unable to submit request. Please try again." }, { status: 500 });
   }
 }
 
@@ -51,28 +58,32 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: "Missing request id" }, { status: 400 });
     }
 
-    const db = readDb();
-    const reqIndex = db.requests.findIndex(r => r.id === id);
-    
-    if (reqIndex === -1) {
+    const resolvedRequest = await runTransaction((db) => {
+      const reqIndex = db.requests.findIndex(r => r.id === id);
+      if (reqIndex === -1) {
+        return null;
+      }
+
+      const resolved = {
+        ...db.requests[reqIndex],
+        status: "resolved" as const,
+        resolvedTime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+      };
+
+      // Remove from active requests and push to history
+      db.requests.splice(reqIndex, 1);
+      db.history.unshift(resolved);
+      return resolved;
+    });
+
+    if (!resolvedRequest) {
       return NextResponse.json({ error: "Request not found" }, { status: 404 });
     }
-
-    const resolvedRequest = {
-      ...db.requests[reqIndex],
-      status: "resolved" as const,
-      resolvedTime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
-    };
-
-    // Remove from active requests and push to history
-    db.requests.splice(reqIndex, 1);
-    db.history.unshift(resolvedRequest);
-    writeDb(db);
 
     return NextResponse.json(resolvedRequest);
   } catch (e) {
     console.error("Error resolving request:", e);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+    return NextResponse.json({ error: "Unable to resolve request. Please try again." }, { status: 500 });
   }
 }
 
@@ -83,20 +94,20 @@ export async function DELETE(req: Request) {
     const { searchParams } = new URL(url);
     const mode = searchParams.get("mode") || "history"; // "history" or "all" or "active"
 
-    const db = readDb();
-    if (mode === "history") {
-      db.history = [];
-    } else if (mode === "active") {
-      db.requests = [];
-    } else if (mode === "all") {
-      db.requests = [];
-      db.history = [];
-    }
-    
-    writeDb(db);
+    await runTransaction((db) => {
+      if (mode === "history") {
+        db.history = [];
+      } else if (mode === "active") {
+        db.requests = [];
+      } else if (mode === "all") {
+        db.requests = [];
+        db.history = [];
+      }
+    });
+
     return NextResponse.json({ success: true });
   } catch (e) {
     console.error("Error clearing requests:", e);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+    return NextResponse.json({ error: "Unable to clear requests. Please try again." }, { status: 500 });
   }
 }

@@ -3,6 +3,16 @@ import path from "path";
 import crypto from "crypto";
 
 const dbPath = path.join(process.cwd(), "db.json");
+const lockPath = path.join(process.cwd(), "db.lock");
+
+// Auto-clean lock file on start-up
+try {
+  if (fs.existsSync(lockPath)) {
+    fs.unlinkSync(lockPath);
+  }
+} catch (e) {
+  // Ignore
+}
 
 export interface Table {
   id: string;
@@ -13,7 +23,7 @@ export interface CafeRequest {
   id: string;
   tableId: string;
   tableName: string;
-  type: "Waiter Call" | "Ask For Bill";
+  type: string; // Dynamic type to support reward claims
   time: string;
   status: "pending" | "resolved";
   resolvedTime?: string;
@@ -29,7 +39,7 @@ export interface SpinReward {
   icon: string;
   token: string; // HMAC encrypted token for verification
   timestamp: string;
-  expiresAt: string; // 24h expiry
+  expiresAt: string; // 2h or 24h expiry
   status: "pending" | "claimed" | "rejected" | "expired";
   claimedAt?: string;
   rejectedAt?: string;
@@ -58,6 +68,7 @@ const defaultDb: DatabaseSchema = {
   spinRewards: []
 };
 
+// Raw read
 export function readDb(): DatabaseSchema {
   try {
     if (!fs.existsSync(dbPath)) {
@@ -65,10 +76,18 @@ export function readDb(): DatabaseSchema {
       return defaultDb;
     }
     const data = fs.readFileSync(dbPath, "utf-8");
+    if (!data || data.trim() === "") {
+      return defaultDb;
+    }
     const parsed = JSON.parse(data);
-    // Ensure spinRewards key exists in older db files
     if (!parsed.spinRewards) {
       parsed.spinRewards = [];
+    }
+    if (!parsed.requests) {
+      parsed.requests = [];
+    }
+    if (!parsed.history) {
+      parsed.history = [];
     }
     return parsed;
   } catch (e) {
@@ -77,11 +96,59 @@ export function readDb(): DatabaseSchema {
   }
 }
 
+// Raw write
 export function writeDb(db: DatabaseSchema) {
   try {
     fs.writeFileSync(dbPath, JSON.stringify(db, null, 2), "utf-8");
   } catch (e) {
     console.error("Error writing db.json:", e);
+  }
+}
+
+// Lock acquisition helper
+async function acquireLock(retries = 300, delay = 15): Promise<void> {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const fd = fs.openSync(lockPath, "wx");
+      fs.closeSync(fd);
+      return;
+    } catch (e: any) {
+      if (e.code === "EEXIST") {
+        await new Promise((resolve) => setTimeout(resolve, delay));
+      } else {
+        throw e;
+      }
+    }
+  }
+  throw new Error("Database lock timeout: Could not acquire lock");
+}
+
+// Lock release helper
+function releaseLock() {
+  try {
+    if (fs.existsSync(lockPath)) {
+      fs.unlinkSync(lockPath);
+    }
+  } catch (e) {
+    // Ignore error
+  }
+}
+
+// Run a code block inside a safe file transaction
+export async function runTransaction<T>(
+  action: (db: DatabaseSchema) => T | Promise<T>,
+  readonly = false
+): Promise<T> {
+  await acquireLock();
+  try {
+    const db = readDb();
+    const result = await action(db);
+    if (!readonly) {
+      writeDb(db);
+    }
+    return result;
+  } finally {
+    releaseLock();
   }
 }
 

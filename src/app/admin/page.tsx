@@ -748,7 +748,10 @@ export default function AdminDashboard() {
                               currentStatus === "expired" ? "bg-white/5 text-white/35 border border-white/10" :
                               "bg-amber-500/10 text-amber-400 border border-amber-500/20"
                             }`}>
-                              {currentStatus}
+                              {currentStatus === "claimed" ? "Redeemed" :
+                               currentStatus === "pending" ? "Pending" :
+                               currentStatus === "rejected" ? "Rejected" :
+                               currentStatus === "expired" ? "Expired" : currentStatus}
                             </span>
                           </td>
                           <td className="py-4 text-right pr-2">
@@ -771,7 +774,7 @@ export default function AdminDashboard() {
                               </div>
                             )}
                             {currentStatus === "claimed" && (
-                              <span className="text-[8.5px] font-mono text-white/30">Claimed at {reward.claimedAt ? new Date(reward.claimedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "-"}</span>
+                              <span className="text-[8.5px] font-mono text-white/30">Redeemed at {reward.claimedAt ? new Date(reward.claimedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "-"}</span>
                             )}
                             {currentStatus === "rejected" && (
                               <span className="text-[8.5px] font-mono text-white/30">Rejected</span>

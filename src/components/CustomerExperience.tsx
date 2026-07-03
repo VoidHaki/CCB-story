@@ -14,7 +14,6 @@ import {
   Coins,
   ArrowRight,
   ChevronRight,
-  ChevronLeft,
   Lock,
   Clock,
   Gift,
@@ -52,6 +51,48 @@ const WHEEL_REWARDS = [
   { text: "Lucky Bonus",  type: "bonus",    value: 50,           icon: "✨", color: "#D91F3A", textColor: "#FFFFFF" },
   { text: "Free Pizza",   type: "food",     value: "Free Pizza", icon: "🍕", color: "#C07D34", textColor: "#FFFFFF" }
 ];
+
+// Lazy-loading video component to optimize network bandwidth and prevent first-load lag
+function ReelVideo({ src }: { src: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsInView(true);
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(video);
+    return () => {
+      observer.unobserve(video);
+    };
+  }, []);
+
+  return (
+    <video
+      ref={videoRef}
+      src={isInView ? src : undefined}
+      preload="none"
+      muted
+      loop
+      playsInline
+      className="w-full h-full object-cover"
+    />
+  );
+}
 
 export default function CustomerExperience({ defaultTableId }: CustomerExperienceProps) {
   const [tableId, setTableId] = useState<string>("12");
@@ -173,9 +214,12 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
         setCooldownRemaining(statusData.cooldownRemaining);
         
         if (statusData.activePendingReward) {
+          const isDismissed = sessionStorage.getItem(`ccb_dismissed_reward_${statusData.activePendingReward.id}`) === "true";
           setActiveSpinReward(statusData.activePendingReward);
           setNotifiedStaffForReward(false);
-          setShowSpinPopup(true);
+          if (!isDismissed) {
+            setShowSpinPopup(true);
+          }
         }
       }
 
@@ -205,7 +249,6 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
     const timer = setInterval(() => {
       setCooldownRemaining((prev) => {
         if (prev <= 1000) {
-          // Cooldown finished: reload status to unlock spin
           if (prev > 0 && tableId) {
             checkStatusAndLoadRewards(tableId);
           }
@@ -272,7 +315,7 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
   const showToast = (text: string, type: "success" | "info" = "info") => {
     setToastMessage({ text, type });
     playSynthSound("success");
-    setTimeout(() => setToastMessage(null), 3000);
+    setTimeout(() => setToastMessage(null), 3500);
   };
 
   // Waiter Countdown Trigger
@@ -310,14 +353,15 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
       });
       if (res.ok) {
         setWaiterCallStatus("success");
-        showToast("Waiter is on the way!", "success");
+        showToast("Waiter has been called!", "success");
         setTimeout(() => setWaiterCallStatus("idle"), 4000);
       } else {
         setWaiterCallStatus("idle");
-        showToast("Request failed", "info");
+        showToast("Unable to reach staff. Please try again.", "info");
       }
     } catch (e) {
       setWaiterCallStatus("idle");
+      showToast("Connection lost. Reconnecting...", "info");
     } finally {
       setIsSubmitting(false);
     }
@@ -358,14 +402,15 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
       });
       if (res.ok) {
         setBillCallStatus("success");
-        showToast("Bill requested!", "success");
+        showToast("Bill receipt requested!", "success");
         setTimeout(() => setBillCallStatus("idle"), 4000);
       } else {
         setBillCallStatus("idle");
-        showToast("Request failed", "info");
+        showToast("Unable to submit request. Please try again.", "info");
       }
     } catch (e) {
       setBillCallStatus("idle");
+      showToast("Connection lost. Reconnecting...", "info");
     } finally {
       setIsSubmitting(false);
     }
@@ -478,7 +523,6 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
       const textAngle = (i * anglePerSlice + anglePerSlice / 2 - 90) * Math.PI / 180;
       ctx.rotate(textAngle);
 
-      // Contrast enhancement: if background is light color, use navy text
       ctx.fillStyle = reward.textColor;
       ctx.font = "bold 12px sans-serif";
       ctx.textAlign = "right";
@@ -521,7 +565,7 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
 
       if (!res.ok) {
         const errorData = await res.json();
-        showToast(errorData.error || "Spin unavailable", "info");
+        showToast(errorData.error || "Spin unavailable. Please try again.", "info");
         checkStatusAndLoadRewards(tableId);
         return;
       }
@@ -563,6 +607,9 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
           colors: ["#D91F3A", "#1E2E56", "#C8903A", "#FFFFFF"]
         });
 
+        // Clear dismissed flag for new reward
+        sessionStorage.removeItem(`ccb_dismissed_reward_${rewardData.id}`);
+
         setActiveSpinReward({
           id: rewardData.id,
           reward: rewardData.reward,
@@ -582,7 +629,7 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
 
     } catch (e) {
       console.error("Spin request error", e);
-      showToast("Connection failed", "info");
+      showToast("Connection lost. Reconnecting...", "info");
     }
   };
 
@@ -619,10 +666,10 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
         checkStatusAndLoadRewards(tableId);
       } else {
         const err = await res.json();
-        showToast(err.error || "Claim failed", "info");
+        showToast(err.error || "Unable to save reward. Please try again.", "info");
       }
     } catch (e) {
-      showToast("Error claiming points", "info");
+      showToast("Unable to save reward. Please try again.", "info");
     }
   };
 
@@ -643,14 +690,14 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
           setShowSpinPopup(false);
           setActiveSpinReward(null);
         }
-        showToast("Voucher activated!", "success");
+        showToast("Reward successfully saved.", "success");
         checkStatusAndLoadRewards(tableId);
       } else {
         const err = await res.json();
-        showToast(err.error || "Claim failed", "info");
+        showToast(err.error || "Unable to save reward. Please try again.", "info");
       }
     } catch (e) {
-      showToast("Error claiming voucher", "info");
+      showToast("Unable to save reward. Please try again.", "info");
     }
   };
 
@@ -670,12 +717,12 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
       if (res.ok) {
         setNotifiedStaffForReward(true);
         playSynthSound("success");
-        showToast("Staff notified for reward claim!", "success");
+        showToast("Staff has been notified.", "success");
       } else {
-        showToast("Notification failed", "info");
+        showToast("Unable to notify staff. Please try again.", "info");
       }
     } catch (e) {
-      console.error(e);
+      showToast("Connection lost. Reconnecting...", "info");
     } finally {
       setIsSubmitting(false);
     }
@@ -688,6 +735,16 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
     const mins = Math.floor((totalSecs % 3600) / 60);
     const secs = totalSecs % 60;
     return `${String(hrs).padStart(2, "0")}:${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+  };
+
+  const getFriendlyStatus = (status: string) => {
+    switch(status) {
+      case "pending": return "Pending";
+      case "claimed": return "Redeemed";
+      case "rejected": return "Rejected";
+      case "expired": return "Expired";
+      default: return status;
+    }
   };
 
   const reels = mediaList.reels && mediaList.reels.length > 0 ? mediaList.reels : [];
@@ -784,14 +841,8 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
                 key={idx}
                 className="w-[160px] sm:w-[200px] aspect-[9/16] relative flex-shrink-0 snap-start rounded-2xl overflow-hidden border border-slate-200/80 shadow-md active:scale-98 transition-transform duration-300 bg-navy-deep group/reel"
               >
-                <video 
-                  src={`/reels/${reelFile}`}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="w-full h-full object-cover"
-                />
+                {/* Lazy-loaded video optimized using IntersectionObserver */}
+                <ReelVideo src={`/reels/${reelFile}`} />
                 
                 {/* Visual vignette */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
@@ -1051,7 +1102,7 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
 
         {/* ACTIVE TABLE REWARDS LISTING PANEL */}
         {tableRewards.length > 0 && (
-          <div className="w-full max-w-2xl mx-auto mt-10 p-6 bg-white border border-gray-200 rounded-3xl shadow-sm">
+          <div className="w-full max-w-2xl mx-auto mt-10 p-6 bg-white border border-gray-200 rounded-3xl shadow-sm animate-fade-in">
             <div className="flex items-center gap-2 mb-4 pb-2.5 border-b border-gray-100">
               <Gift className="w-5 h-5 text-red" />
               <div>
@@ -1108,19 +1159,19 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
 
                       {displayStatus === "claimed" && (
                         <span className="status-pill bg-emerald-50 text-emerald-600 border border-emerald-200">
-                          Redeemed
+                          {getFriendlyStatus(displayStatus)}
                         </span>
                       )}
 
                       {displayStatus === "expired" && (
                         <span className="status-pill bg-gray-100 text-gray-400 border border-gray-200">
-                          Expired
+                          {getFriendlyStatus(displayStatus)}
                         </span>
                       )}
 
                       {displayStatus === "rejected" && (
                         <span className="status-pill bg-red/5 text-red border border-red/10">
-                          Rejected
+                          {getFriendlyStatus(displayStatus)}
                         </span>
                       )}
                     </div>
@@ -1131,6 +1182,183 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
           </div>
         )}
       </section>
+
+      {/* HOW IT WORKS PROCESS */}
+      <section className="py-16 px-4 max-w-4xl mx-auto w-full z-20 relative border-t border-gray-200">
+        <div className="text-center mb-10">
+          <span className="section-label">Process</span>
+          <h2 className="text-3xl font-black font-serif text-navy mt-2">How It Works</h2>
+          <p className="text-[11px] text-gray-600 mt-2 max-w-md mx-auto leading-relaxed font-semibold">
+            Collecting rewards is effortless. Follow these simple steps during your visit to Café Coffee Break.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {[
+            { step: "01", title: "Sit & Enjoy", desc: "Enjoy your fresh, premium meal at Cafe Coffee Break." },
+            { step: "02", title: "Tap Ask For Bill", desc: "Request bill check right from your phone seating position." },
+            { step: "03", title: "Receive Code", desc: "Get your secret printed code on your checkout bill receipt." },
+            { step: "04", title: "Redeem On Site", desc: "Visit ccbrewards.in and input code to bank your points." },
+            { step: "05", title: "Earn Coins", desc: "Instantly unlock your loyalty coins on the go." },
+            { step: "06", title: "Unlock Rewards", desc: "Exchange coins for premium coffee and delicious desserts!" }
+          ].map((item, idx) => (
+            <motion.div 
+              key={idx}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.05 }}
+              className="ccb-card p-5 flex flex-col items-start bg-white border-gray-200"
+            >
+              <span className="text-xl font-black text-red leading-none mb-3 font-serif">{item.step}</span>
+              <h3 className="text-xs font-extrabold text-navy mb-1.5 uppercase tracking-wide">{item.title}</h3>
+              <p className="text-[10px] text-gray-600 leading-relaxed font-semibold">{item.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* CUSTOMER STORIES (REVIEWS GRID) */}
+      <section className="py-16 px-4 max-w-4xl mx-auto w-full z-20 relative border-t border-gray-200">
+        <div className="text-center mb-10">
+          <span className="section-label">Moments</span>
+          <h2 className="text-3xl font-black font-serif text-navy mt-2">Customer Stories</h2>
+        </div>
+
+        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+          {CUSTOMER_SCENES.map((scene, idx) => (
+            <motion.div 
+              key={idx}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="break-inside-avoid ccb-card overflow-hidden relative flex flex-col group border-gray-200 bg-white"
+            >
+              <div className="relative overflow-hidden aspect-[4/5] bg-gray-bg">
+                <img 
+                  src={scene.url} 
+                  alt={scene.name} 
+                  loading="lazy"
+                  className="w-full h-full object-cover block group-hover:scale-102 transition-transform duration-500"
+                />
+                
+                {/* Hover overlay review details */}
+                <div className="absolute inset-0 bg-navy-deep/95 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5 text-white">
+                  <div className="flex gap-0.5 text-amber-400 mb-2">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-3.5 h-3.5 fill-current stroke-none" />
+                    ))}
+                  </div>
+                  <p className="text-[11px] font-semibold text-white/90 leading-relaxed italic mb-3">
+                    "{scene.review}"
+                  </p>
+                  <div className="border-t border-white/10 pt-2">
+                    <span className="block text-[10px] font-bold text-white uppercase tracking-wider">{scene.name}</span>
+                    <span className="block text-[8px] text-red uppercase tracking-widest mt-0.5 font-bold">{scene.reward}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Static overlay bottom card */}
+              <div className="p-4 bg-white border-t border-gray-200 flex items-center justify-between">
+                <div>
+                  <span className="block text-[10.5px] font-bold text-navy uppercase tracking-wider">{scene.name}</span>
+                  <span className="block text-[7.5px] text-red uppercase tracking-widest mt-0.5 font-extrabold">{scene.reward}</span>
+                </div>
+                <div className="flex gap-0.5 text-amber-500">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-2.5 h-2.5 fill-current stroke-none" />
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* GOOGLE REVIEWS PREMIUM CTA BANNER */}
+      <section className="py-8 px-4 max-w-4xl mx-auto w-full z-20 text-center border-t border-gray-200">
+        <div className="bg-gradient-to-r from-[#0D1A38] via-[#1E2E56] to-[#0D1A38] p-8 rounded-3xl border border-white/10 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 text-left relative overflow-hidden group">
+          <div className="absolute right-0 top-0 w-24 h-24 bg-red/10 blur-2xl rounded-full group-hover:scale-110 transition-transform duration-500 pointer-events-none"></div>
+          <div>
+            <h4 className="text-base font-extrabold text-white uppercase tracking-wider">Love your experience at Café Coffee Break?</h4>
+            <p className="text-[10px] text-white/60 mt-1 font-semibold">Share your coffee moments and rate us on Google. It helps our staff keep brewing the best cup!</p>
+          </div>
+          <a
+            href="https://g.page/r/cafecoffeebreak/review"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => playSynthSound("success")}
+            className="flex-shrink-0 px-6 py-3.5 bg-red hover:bg-red-light text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95 flex items-center gap-2 hover:shadow-red/20 hover:shadow-lg border border-red-light/35 cursor-pointer"
+          >
+            <span className="text-yellow-400">★ ★ ★ ★ ★</span>
+            <span>Leave us a Google Review</span>
+          </a>
+        </div>
+      </section>
+
+      {/* TOAST PANEL */}
+      <AnimatePresence>
+        {toastMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 15 }}
+            className="fixed bottom-6 inset-x-4 z-50 flex justify-center pointer-events-none"
+          >
+            <div className="bg-navy border border-white/15 text-white px-5 py-3.5 rounded-full shadow-2xl flex items-center gap-2.5 pointer-events-auto">
+              <Check className="w-4 h-4 text-red stroke-[3]" />
+              <span className="text-[10px] font-black uppercase tracking-wider">{toastMessage.text}</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* TABLE SELECT TRIGGER MODAL */}
+      <AnimatePresence>
+        {activeModal === "table-select" && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-deep/80 backdrop-blur-sm">
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="w-full max-w-sm ccb-card p-6 flex flex-col h-[380px] bg-white border-gray-200 shadow-2xl"
+            >
+              <div className="flex justify-between items-center mb-4">
+                <h4 className="text-xs font-black text-navy uppercase tracking-widest">Select Table Seating</h4>
+                <button 
+                  onClick={() => { playSynthSound("click"); setActiveModal(null); }}
+                  className="p-1 rounded-full text-navy/40 hover:text-navy hover:bg-gray-100"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto space-y-2.5 hide-scrollbar">
+                {availableTables.map((t) => (
+                  <button 
+                    key={t.id}
+                    onClick={() => {
+                      playSynthSound("success");
+                      setTableId(t.id);
+                      setActiveModal(null);
+                      showToast(`Checked into ${t.name}`, "success");
+                    }}
+                    className={`w-full p-3.5 rounded-xl border text-xs font-bold text-left transition-all flex items-center justify-between focus:outline-none cursor-pointer ${
+                      t.id === tableId 
+                        ? "bg-red/5 border-red text-red" 
+                        : "bg-gray-bg border-transparent hover:border-navy/20 text-navy/80 hover:text-navy"
+                    }`}
+                  >
+                    <span>{t.name}</span>
+                    <span className="text-[8px] bg-white/10 text-gray-600 px-1.5 py-0.5 rounded border border-gray-200 font-mono font-bold">ID: {t.id}</span>
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* SPIN POPUP MODAL (ANTI-FRAUD VERIFIED VOUCHER & COINS CELEBRATION) */}
       <AnimatePresence>
@@ -1231,6 +1459,9 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
                     </button>
                     <button 
                       onClick={() => {
+                        if (activeSpinReward) {
+                          sessionStorage.setItem(`ccb_dismissed_reward_${activeSpinReward.id}`, "true");
+                        }
                         setShowSpinPopup(false);
                         setActiveSpinReward(null);
                       }}
@@ -1241,161 +1472,6 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
                   </div>
                 </>
               )}
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
-      {/* HOW IT WORKS PROCESS */}
-      <section className="py-16 px-4 max-w-4xl mx-auto w-full z-20 relative border-t border-gray-200">
-        <div className="text-center mb-10">
-          <span className="section-label">Process</span>
-          <h2 className="text-3xl font-black font-serif text-navy mt-2">How It Works</h2>
-          <p className="text-[11px] text-gray-600 mt-2 max-w-md mx-auto leading-relaxed font-semibold">
-            Collecting rewards is effortless. Follow these simple steps during your visit to Café Coffee Break.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {[
-            { step: "01", title: "Sit & Enjoy", desc: "Enjoy your fresh, premium meal at Cafe Coffee Break." },
-            { step: "02", title: "Tap Ask For Bill", desc: "Request bill check right from your phone seating position." },
-            { step: "03", title: "Receive Code", desc: "Get your secret printed code on your checkout bill receipt." },
-            { step: "04", title: "Redeem On Site", desc: "Visit ccbrewards.in and input code to bank your points." },
-            { step: "05", title: "Earn Coins", desc: "Instantly unlock your loyalty coins on the go." },
-            { step: "06", title: "Unlock Rewards", desc: "Exchange coins for premium coffee and delicious desserts!" }
-          ].map((item, idx) => (
-            <motion.div 
-              key={idx}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.05 }}
-              className="ccb-card p-5 flex flex-col items-start bg-white border-gray-200"
-            >
-              <span className="text-xl font-black text-red leading-none mb-3 font-serif">{item.step}</span>
-              <h3 className="text-xs font-extrabold text-navy mb-1.5 uppercase tracking-wide">{item.title}</h3>
-              <p className="text-[10px] text-gray-600 leading-relaxed font-semibold">{item.desc}</p>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* CUSTOMER STORIES (REVIEWS GRID) */}
-      <section className="py-16 px-4 max-w-4xl mx-auto w-full z-20 relative border-t border-gray-200">
-        <div className="text-center mb-10">
-          <span className="section-label">Moments</span>
-          <h2 className="text-3xl font-black font-serif text-navy mt-2">Customer Stories</h2>
-        </div>
-
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
-          {CUSTOMER_SCENES.map((scene, idx) => (
-            <motion.div 
-              key={idx}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="break-inside-avoid ccb-card overflow-hidden relative flex flex-col group border-gray-200 bg-white"
-            >
-              <div className="relative overflow-hidden aspect-[4/5] bg-gray-bg">
-                <img 
-                  src={scene.url} 
-                  alt={scene.name} 
-                  className="w-full h-full object-cover block group-hover:scale-102 transition-transform duration-500"
-                />
-                
-                {/* Hover overlay review details */}
-                <div className="absolute inset-0 bg-navy-deep/95 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5 text-white">
-                  <div className="flex gap-0.5 text-amber-400 mb-2">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-3.5 h-3.5 fill-current stroke-none" />
-                    ))}
-                  </div>
-                  <p className="text-[11px] font-semibold text-white/90 leading-relaxed italic mb-3">
-                    "{scene.review}"
-                  </p>
-                  <div className="border-t border-white/10 pt-2">
-                    <span className="block text-[10px] font-bold text-white uppercase tracking-wider">{scene.name}</span>
-                    <span className="block text-[8px] text-red uppercase tracking-widest mt-0.5 font-bold">{scene.reward}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Static overlay bottom card */}
-              <div className="p-4 bg-white border-t border-gray-200 flex items-center justify-between">
-                <div>
-                  <span className="block text-[10.5px] font-bold text-navy uppercase tracking-wider">{scene.name}</span>
-                  <span className="block text-[7.5px] text-red uppercase tracking-widest mt-0.5 font-extrabold">{scene.reward}</span>
-                </div>
-                <div className="flex gap-0.5 text-amber-500">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-2.5 h-2.5 fill-current stroke-none" />
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* TOAST PANEL */}
-      <AnimatePresence>
-        {toastMessage && (
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 15 }}
-            className="fixed bottom-6 inset-x-4 z-50 flex justify-center pointer-events-none"
-          >
-            <div className="bg-navy border border-white/15 text-white px-5 py-3.5 rounded-full shadow-2xl flex items-center gap-2.5 pointer-events-auto">
-              <Check className="w-4 h-4 text-red stroke-[3]" />
-              <span className="text-[10px] font-black uppercase tracking-wider">{toastMessage.text}</span>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* TABLE SELECT TRIGGER MODAL */}
-      <AnimatePresence>
-        {activeModal === "table-select" && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-deep/80 backdrop-blur-sm">
-            <motion.div 
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              className="w-full max-w-sm ccb-card p-6 flex flex-col h-[380px] bg-white border-gray-200 shadow-2xl"
-            >
-              <div className="flex justify-between items-center mb-4">
-                <h4 className="text-xs font-black text-navy uppercase tracking-widest">Select Table Seating</h4>
-                <button 
-                  onClick={() => { playSynthSound("click"); setActiveModal(null); }}
-                  className="p-1 rounded-full text-navy/40 hover:text-navy hover:bg-gray-100"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-
-              <div className="flex-1 overflow-y-auto space-y-2.5 hide-scrollbar">
-                {availableTables.map((t) => (
-                  <button 
-                    key={t.id}
-                    onClick={() => {
-                      playSynthSound("success");
-                      setTableId(t.id);
-                      setActiveModal(null);
-                      showToast(`Checked into ${t.name}`, "success");
-                    }}
-                    className={`w-full p-3.5 rounded-xl border text-xs font-bold text-left transition-all flex items-center justify-between focus:outline-none cursor-pointer ${
-                      t.id === tableId 
-                        ? "bg-red/5 border-red text-red" 
-                        : "bg-gray-bg border-transparent hover:border-navy/20 text-navy/80 hover:text-navy"
-                    }`}
-                  >
-                    <span>{t.name}</span>
-                    <span className="text-[8px] bg-white/10 text-gray-600 px-1.5 py-0.5 rounded border border-gray-200 font-mono font-bold">ID: {t.id}</span>
-                  </button>
-                ))}
-              </div>
             </motion.div>
           </div>
         )}
