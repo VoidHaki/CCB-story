@@ -1,0 +1,822 @@
+{
+  "tables": [
+    {
+      "id": "1",
+      "name": "Table 1"
+    },
+    {
+      "id": "2",
+      "name": "Table 2"
+    },
+    {
+      "id": "5",
+      "name": "Table 5"
+    },
+    {
+      "id": "12",
+      "name": "Table 12"
+    },
+    {
+      "id": "15",
+      "name": "Table 15"
+    },
+    {
+      "id": "21",
+      "name": "Table 21"
+    },
+    {
+      "id": "25",
+      "name": "Table 25"
+    }
+  ],
+  "requests": [
+    {
+      "id": "req-1783095410059-844",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Reward Claim - +15 Coins (45468)",
+      "time": "09:46:50 PM",
+      "status": "pending"
+    }
+  ],
+  "history": [
+    {
+      "id": "req-1783013352546-304",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "10:59:12 PM",
+      "status": "resolved",
+      "resolvedTime": "11:44:53 PM"
+    },
+    {
+      "id": "req-1783013353084-354",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "10:59:13 PM",
+      "status": "resolved",
+      "resolvedTime": "11:44:53 PM"
+    },
+    {
+      "id": "req-1783013353131-507",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "10:59:13 PM",
+      "status": "resolved",
+      "resolvedTime": "11:44:53 PM"
+    },
+    {
+      "id": "req-1782636599642-845",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "02:19:59 PM",
+      "status": "resolved",
+      "resolvedTime": "11:44:53 PM"
+    },
+    {
+      "id": "req-1782636603123-725",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "02:20:03 PM",
+      "status": "resolved",
+      "resolvedTime": "11:44:52 PM"
+    },
+    {
+      "id": "req-1782637641874-59",
+      "tableId": "12",
+      "tableName": "Table 12",
+      "type": "Ask For Bill",
+      "time": "02:37:21 PM",
+      "status": "resolved",
+      "resolvedTime": "11:44:52 PM"
+    },
+    {
+      "id": "req-1782637660448-983",
+      "tableId": "12",
+      "tableName": "Table 12",
+      "type": "Ask For Bill",
+      "time": "02:37:40 PM",
+      "status": "resolved",
+      "resolvedTime": "11:44:52 PM"
+    },
+    {
+      "id": "req-1782637677308-759",
+      "tableId": "12",
+      "tableName": "Table 12",
+      "type": "Ask For Bill",
+      "time": "02:37:57 PM",
+      "status": "resolved",
+      "resolvedTime": "11:44:52 PM"
+    },
+    {
+      "id": "req-1782637704699-104",
+      "tableId": "12",
+      "tableName": "Table 12",
+      "type": "Ask For Bill",
+      "time": "02:38:24 PM",
+      "status": "resolved",
+      "resolvedTime": "11:44:52 PM"
+    },
+    {
+      "id": "req-1782660468228-538",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "08:57:48 PM",
+      "status": "resolved",
+      "resolvedTime": "11:44:52 PM"
+    },
+    {
+      "id": "req-1783016041970-25",
+      "tableId": "12",
+      "tableName": "Table 12",
+      "type": "Ask For Bill",
+      "time": "11:44:01 PM",
+      "status": "resolved",
+      "resolvedTime": "11:44:52 PM"
+    },
+    {
+      "id": "req-1782660472546-881",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "08:57:52 PM",
+      "status": "resolved",
+      "resolvedTime": "11:44:52 PM"
+    },
+    {
+      "id": "req-1782666045157-782",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "10:30:45 PM",
+      "status": "resolved",
+      "resolvedTime": "11:44:52 PM"
+    },
+    {
+      "id": "req-1782666048615-976",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "10:30:48 PM",
+      "status": "resolved",
+      "resolvedTime": "11:44:52 PM"
+    },
+    {
+      "id": "req-1782666051562-978",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "10:30:51 PM",
+      "status": "resolved",
+      "resolvedTime": "11:44:52 PM"
+    },
+    {
+      "id": "req-1782762872830-286",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "01:24:32 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:52 PM"
+    },
+    {
+      "id": "req-1782762872915-217",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "01:24:32 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:52 PM"
+    },
+    {
+      "id": "req-1782762877444-573",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "01:24:37 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:52 PM"
+    },
+    {
+      "id": "req-1782762877476-531",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "01:24:37 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:52 PM"
+    },
+    {
+      "id": "req-1782763026323-350",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "01:27:06 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:52 PM"
+    },
+    {
+      "id": "req-1782763589670-387",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "01:36:29 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:52 PM"
+    },
+    {
+      "id": "req-1782763026350-163",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "01:27:06 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:52 PM"
+    },
+    {
+      "id": "req-1782763589593-720",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "01:36:29 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:52 PM"
+    },
+    {
+      "id": "req-1782763597481-16",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "01:36:37 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:52 PM"
+    },
+    {
+      "id": "req-1782763597536-350",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "01:36:37 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:52 PM"
+    },
+    {
+      "id": "req-1782763949400-659",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Order Request: Irish Cream Cappuccino",
+      "time": "01:42:29 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:52 PM"
+    },
+    {
+      "id": "req-1782763954263-833",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Order Request: Irish Cream Cappuccino",
+      "time": "01:42:34 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:51 PM"
+    },
+    {
+      "id": "req-1782764532924-958",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "01:52:12 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:51 PM"
+    },
+    {
+      "id": "req-1782764533793-51",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "01:52:13 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:51 PM"
+    },
+    {
+      "id": "req-1782764539216-434",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "01:52:19 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:51 PM"
+    },
+    {
+      "id": "req-1782764539342-769",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "01:52:19 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:51 PM"
+    },
+    {
+      "id": "req-1782764606709-169",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "01:53:26 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:51 PM"
+    },
+    {
+      "id": "req-1782764606594-597",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "01:53:26 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:51 PM"
+    },
+    {
+      "id": "req-1782764629760-665",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "01:53:49 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:51 PM"
+    },
+    {
+      "id": "req-1782764629788-750",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "01:53:49 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:51 PM"
+    },
+    {
+      "id": "req-1782765418103-145",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Order Request: Cold Coffee",
+      "time": "02:06:58 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:51 PM"
+    },
+    {
+      "id": "req-1782766484069-176",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "02:24:44 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:51 PM"
+    },
+    {
+      "id": "req-1782766484125-711",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "02:24:44 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:51 PM"
+    },
+    {
+      "id": "req-1782766488784-449",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "02:24:48 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:51 PM"
+    },
+    {
+      "id": "req-1782766488826-929",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "02:24:48 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:51 PM"
+    },
+    {
+      "id": "req-1782767282155-232",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "02:38:02 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:51 PM"
+    },
+    {
+      "id": "req-1782767282188-474",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "02:38:02 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:51 PM"
+    },
+    {
+      "id": "req-1782767827076-311",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "02:47:07 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:51 PM"
+    },
+    {
+      "id": "req-1782767827122-408",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "02:47:07 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:51 PM"
+    },
+    {
+      "id": "req-1782767832294-797",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "02:47:12 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:50 PM"
+    },
+    {
+      "id": "req-1782767832346-238",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "02:47:12 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:50 PM"
+    },
+    {
+      "id": "req-1782767895522-338",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "02:48:15 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:50 PM"
+    },
+    {
+      "id": "req-1782767895575-63",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "02:48:15 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:50 PM"
+    },
+    {
+      "id": "req-1782767899539-221",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "02:48:19 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:50 PM"
+    },
+    {
+      "id": "req-1782767899611-685",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "02:48:19 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:50 PM"
+    },
+    {
+      "id": "req-1782797713155-189",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "11:05:13 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:50 PM"
+    },
+    {
+      "id": "req-1782797713403-440",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "11:05:13 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:50 PM"
+    },
+    {
+      "id": "req-1782797767593-697",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "11:06:07 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:50 PM"
+    },
+    {
+      "id": "req-1782797767801-365",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "11:06:07 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:50 PM"
+    },
+    {
+      "id": "req-1783016042078-686",
+      "tableId": "12",
+      "tableName": "Table 12",
+      "type": "Ask For Bill",
+      "time": "11:44:02 PM",
+      "status": "resolved",
+      "resolvedTime": "11:44:50 PM"
+    },
+    {
+      "id": "req-1782797776052-482",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "11:06:16 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:50 PM"
+    },
+    {
+      "id": "req-1782797776087-102",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "11:06:16 AM",
+      "status": "resolved",
+      "resolvedTime": "11:44:50 PM"
+    },
+    {
+      "id": "req-1783013285299-922",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "10:58:05 PM",
+      "status": "resolved",
+      "resolvedTime": "11:44:50 PM"
+    },
+    {
+      "id": "req-1783013285423-192",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "10:58:05 PM",
+      "status": "resolved",
+      "resolvedTime": "11:44:50 PM"
+    },
+    {
+      "id": "req-1783013352426-687",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "10:59:12 PM",
+      "status": "resolved",
+      "resolvedTime": "11:44:50 PM"
+    },
+    {
+      "id": "req-1783016067356-816",
+      "tableId": "12",
+      "tableName": "Table 12",
+      "type": "Ask For Bill",
+      "time": "11:44:27 PM",
+      "status": "resolved",
+      "resolvedTime": "11:44:50 PM"
+    },
+    {
+      "id": "req-1783016072205-452",
+      "tableId": "12",
+      "tableName": "Table 12",
+      "type": "Waiter Call",
+      "time": "11:44:32 PM",
+      "status": "resolved",
+      "resolvedTime": "11:44:50 PM"
+    },
+    {
+      "id": "req-1783016072233-276",
+      "tableId": "12",
+      "tableName": "Table 12",
+      "type": "Waiter Call",
+      "time": "11:44:32 PM",
+      "status": "resolved",
+      "resolvedTime": "11:44:40 PM"
+    },
+    {
+      "id": "req-1783016067386-506",
+      "tableId": "12",
+      "tableName": "Table 12",
+      "type": "Ask For Bill",
+      "time": "11:44:27 PM",
+      "status": "resolved",
+      "resolvedTime": "11:44:31 PM"
+    },
+    {
+      "id": "req-1782636624517-719",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "02:20:24 PM",
+      "status": "resolved",
+      "resolvedTime": "02:39:16 PM"
+    },
+    {
+      "id": "req-1782637627333-753",
+      "tableId": "12",
+      "tableName": "Table 12",
+      "type": "Waiter Call",
+      "time": "02:37:07 PM",
+      "status": "resolved",
+      "resolvedTime": "02:39:10 PM"
+    },
+    {
+      "id": "req-1782636070786-715",
+      "tableId": "12",
+      "tableName": "Table 12",
+      "type": "Waiter Call",
+      "time": "02:11:10 PM",
+      "status": "resolved",
+      "resolvedTime": "02:11:50 PM"
+    },
+    {
+      "id": "req-1782636082409-781",
+      "tableId": "12",
+      "tableName": "Table 12",
+      "type": "Ask For Bill",
+      "time": "02:11:22 PM",
+      "status": "resolved",
+      "resolvedTime": "02:11:46 PM"
+    },
+    {
+      "id": "req-1782634857396-461",
+      "tableId": "12",
+      "tableName": "Table 12",
+      "type": "Waiter Call",
+      "time": "01:50:57 PM",
+      "status": "resolved",
+      "resolvedTime": "01:54:31 PM"
+    },
+    {
+      "id": "req-1782634904730-412",
+      "tableId": "12",
+      "tableName": "Table 12",
+      "type": "Ask For Bill",
+      "time": "01:51:44 PM",
+      "status": "resolved",
+      "resolvedTime": "01:54:21 PM"
+    },
+    {
+      "id": "req-1782634228715-448",
+      "tableId": "12",
+      "tableName": "Table 12",
+      "type": "Waiter Call",
+      "time": "01:40:28 PM",
+      "status": "resolved",
+      "resolvedTime": "01:41:38 PM"
+    },
+    {
+      "id": "req-1782634245818-969",
+      "tableId": "12",
+      "tableName": "Table 12",
+      "type": "Ask For Bill",
+      "time": "01:40:45 PM",
+      "status": "resolved",
+      "resolvedTime": "01:41:30 PM"
+    }
+  ],
+  "spinRewards": [
+    {
+      "id": "spin-1783095402130-45468",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "reward": "+15 Coins",
+      "rewardType": "coins",
+      "rewardValue": 15,
+      "icon": "🪙",
+      "token": "4da608f347264f1da32573de802071c26498bb431858f1af1dbe3425962b29ff",
+      "timestamp": "2026-07-03T16:16:42.130Z",
+      "expiresAt": "2026-07-04T16:16:42.129Z",
+      "status": "claimed",
+      "deviceId": "9d9654eb-dbe2-47c5-8f1a-d4b4b8608441",
+      "fingerprint": "441f79edfa2c2936b96af9a80ff7b364",
+      "claimedAt": "2026-07-03T16:16:52.404Z"
+    },
+    {
+      "id": "spin-1783016669165-98705",
+      "tableId": "12",
+      "tableName": "Table 12",
+      "reward": "+10 Coins",
+      "rewardType": "coins",
+      "rewardValue": 10,
+      "icon": "🪙",
+      "token": "0e853a4a0614b122b00055b9d3724d6ebabcbb78cba3f5fdf0bf6d30ece3621e",
+      "timestamp": "2026-07-02T18:24:29.165Z",
+      "expiresAt": "2026-07-03T18:24:29.165Z",
+      "status": "claimed",
+      "claimedAt": "2026-07-03T16:16:21.945Z"
+    },
+    {
+      "id": "spin-1783016617094-86605",
+      "tableId": "12",
+      "tableName": "Table 12",
+      "reward": "Mystery Gift",
+      "rewardType": "mystery",
+      "rewardValue": "Mystery",
+      "icon": "🎁",
+      "token": "9e92f94a0d57387555d70697662476a7553dea02538c4041800f61325d79c127",
+      "timestamp": "2026-07-02T18:23:37.094Z",
+      "expiresAt": "2026-07-03T18:23:37.094Z",
+      "status": "claimed",
+      "claimedAt": "2026-07-02T18:23:58.760Z"
+    },
+    {
+      "id": "spin-1783016444830-91229",
+      "tableId": "12",
+      "tableName": "Table 12",
+      "reward": "+15 Coins",
+      "rewardType": "coins",
+      "rewardValue": 15,
+      "icon": "🪙",
+      "token": "209a83ed0b8f4a1a1b998d0fe7fa1172f39effc622745c6bcec8cc176ecb88c0",
+      "timestamp": "2026-07-02T18:20:44.830Z",
+      "expiresAt": "2026-07-03T18:20:44.830Z",
+      "status": "claimed",
+      "claimedAt": "2026-07-02T18:22:34.281Z"
+    },
+    {
+      "id": "spin-1783015838892-38086",
+      "tableId": "12",
+      "tableName": "Table 12",
+      "reward": "Lucky Bonus",
+      "rewardType": "bonus",
+      "rewardValue": 50,
+      "icon": "✨",
+      "token": "38dd98deb3a2e1887d87af51831a3cff606e1d2b31c1cfcdb2e9869d452d8778",
+      "timestamp": "2026-07-02T18:10:38.892Z",
+      "expiresAt": "2026-07-03T18:10:38.892Z",
+      "status": "claimed",
+      "claimedAt": "2026-07-02T18:11:16.097Z"
+    },
+    {
+      "id": "spin-1783015601451-29867",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "reward": "10% Off",
+      "rewardType": "discount",
+      "rewardValue": "10%",
+      "icon": "🏷️",
+      "token": "d94ee7c594d2202961dabfecb79276a5b97e841960df135094d1b33f03461415",
+      "timestamp": "2026-07-02T18:06:41.458Z",
+      "expiresAt": "2026-07-03T18:06:41.451Z",
+      "status": "claimed",
+      "claimedAt": "2026-07-02T18:06:50.838Z"
+    },
+    {
+      "id": "spin-1783015589488-99584",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "reward": "+15 Coins",
+      "rewardType": "coins",
+      "rewardValue": 15,
+      "icon": "🪙",
+      "token": "97062f1f91d8b0a7c5259731c5f96551c4510b65dc816fce2863ee636110faee",
+      "timestamp": "2026-07-02T18:06:29.488Z",
+      "expiresAt": "2026-07-03T18:06:29.488Z",
+      "status": "claimed",
+      "claimedAt": "2026-07-02T18:06:37.572Z"
+    },
+    {
+      "id": "spin-1783015577699-92233",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "reward": "+25 Coins",
+      "rewardType": "coins",
+      "rewardValue": 25,
+      "icon": "🪙",
+      "token": "7916884cc84e502f3cfa78e7f14387f2fc9502b0e01ca176ac7bf26c78cebf20",
+      "timestamp": "2026-07-02T18:06:17.699Z",
+      "expiresAt": "2026-07-03T18:06:17.699Z",
+      "status": "claimed",
+      "claimedAt": "2026-07-02T18:06:27.205Z"
+    },
+    {
+      "id": "spin-1783015565122-79901",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "reward": "+10 Coins",
+      "rewardType": "coins",
+      "rewardValue": 10,
+      "icon": "🪙",
+      "token": "4761d9118da3c5989e42976be81edb416af9bfe4ff9b19c9cc59bd62d5fa87a4",
+      "timestamp": "2026-07-02T18:06:05.122Z",
+      "expiresAt": "2026-07-03T18:06:05.122Z",
+      "status": "claimed",
+      "claimedAt": "2026-07-02T18:06:14.184Z"
+    }
+  ]
+}
