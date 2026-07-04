@@ -743,14 +743,14 @@ export default function AdminDashboard() {
                   history.map(h => (
                     <div 
                       key={h.id} 
-                      className="p-3 rounded-xl bg-white/[0.02] border border-white/5 text-[9.5px] font-bold flex items-center justify-between"
+                      className="p-3 rounded-xl bg-white/[0.02] border border-white/5 text-[9.5px] font-bold flex flex-col sm:flex-row sm:items-center justify-between gap-2"
                     >
                       <div className="flex items-center gap-2">
-                        <span>{h.type === "Ask For Bill" ? "🧾" : "🔔"}</span>
+                        <span>{h.type === h.type ? (h.type === "Ask For Bill" ? "🧾" : "🔔") : ""}</span>
                         <span className="text-white">{h.tableName}</span>
                         <span className="text-white/30">resolved</span>
                       </div>
-                      <div className="flex items-center gap-2.5 text-white/40 font-mono text-[8px]">
+                      <div className="flex items-center justify-between sm:justify-end gap-2.5 text-white/40 font-mono text-[8px] w-full sm:w-auto border-t border-white/5 sm:border-none pt-1.5 sm:pt-0">
                         <span>{h.time} → {h.resolvedTime}</span>
                         <span className="text-emerald-400 bg-emerald-500/5 px-1.5 py-0.5 rounded border border-emerald-500/15 uppercase font-bold text-[7px]">OK</span>
                       </div>
@@ -776,8 +776,8 @@ export default function AdminDashboard() {
               </span>
             </div>
 
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+            <div className="overflow-x-auto w-full no-scrollbar">
+              <table className="w-full min-w-[700px] text-left border-collapse">
                 <thead>
                   <tr className="border-b border-white/5 text-[9px] font-black uppercase tracking-widest text-white/45">
                     <th className="pb-3.5 pl-2">Time</th>
@@ -894,7 +894,7 @@ export default function AdminDashboard() {
               {showAddForm && (
                 <form onSubmit={handleAddTable} className="p-5 bg-white/5 border border-white/5 rounded-2xl mb-5 space-y-4">
                   <h4 className="text-xs font-black uppercase tracking-wider text-white">New Seating Position</h4>
-                  <div className="grid grid-cols-2 gap-3.5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                     <div>
                       <label className="block text-[8px] font-black text-white/40 uppercase mb-1">Table Seating ID (Int)</label>
                       <input 

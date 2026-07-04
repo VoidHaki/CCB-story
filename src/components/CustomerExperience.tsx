@@ -156,14 +156,16 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      if (width < 380) {
-        setWheelSize(280);
+      if (width < 340) {
+        setWheelSize(230);
+      } else if (width < 380) {
+        setWheelSize(260);
       } else if (width < 480) {
-        setWheelSize(310);
+        setWheelSize(290);
       } else if (width < 640) {
-        setWheelSize(330);
+        setWheelSize(320);
       } else {
-        setWheelSize(370);
+        setWheelSize(360);
       }
     };
     handleResize();
@@ -556,7 +558,8 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
       ctx.rotate(textAngle);
 
       ctx.fillStyle = reward.textColor;
-      ctx.font = "bold 12px sans-serif";
+      const fontSize = Math.max(9, Math.min(12, Math.floor(size / 30)));
+      ctx.font = `bold ${fontSize}px sans-serif`;
       ctx.textAlign = "right";
       ctx.textBaseline = "middle";
       ctx.fillText(reward.text, radius - 28, 0);
@@ -869,7 +872,7 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
         </div>
 
         {reels.length > 0 ? (
-          <div className="flex overflow-x-auto gap-4 snap-x snap-mandatory hide-scrollbar pb-3 px-1 -mx-4 sm:mx-0 sm:px-0">
+          <div className="flex overflow-x-auto justify-start sm:justify-center gap-4 snap-x snap-mandatory hide-scrollbar pb-3 px-1 -mx-4 sm:mx-0 sm:px-0 w-full">
             {reels.map((reelFile, idx) => (
               <div 
                 key={idx}
@@ -1033,7 +1036,7 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
       </div>
 
       {/* PREMIUM WHEEL SECTION */}
-      <section ref={spinSectionRef} className="py-16 px-4 max-w-4xl mx-auto w-full z-20 bg-gray-bg border-y border-gray-200 rounded-[32px] my-10 shadow-inner relative">
+      <section ref={spinSectionRef} className="py-12 sm:py-16 px-3 sm:px-6 max-w-4xl mx-auto w-full z-20 bg-gray-bg border-y border-gray-200 rounded-[24px] sm:rounded-[32px] my-6 sm:my-10 shadow-inner relative">
         
         {/* Floating Coin Decoration */}
         <div className="absolute right-6 top-8 opacity-25 anim-coin pointer-events-none hidden sm:block">
@@ -1054,7 +1057,7 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
         <div className="flex flex-col md:flex-row items-center justify-center gap-10 max-w-2xl mx-auto">
           
           {/* 3D LUXURY WHEEL AREA */}
-          <div className="relative flex-shrink-0 p-4">
+          <div className="relative flex-shrink-0 p-2 sm:p-4">
             
             {/* 3D Outer drop ring */}
             <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-navy/30 via-transparent to-transparent blur-md"></div>

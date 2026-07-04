@@ -39,8 +39,10 @@ export default function TabletWheelPage() {
       const h = window.innerHeight;
       const minDimension = Math.min(w, h);
       
-      if (minDimension < 500) {
-        setWheelSize(340);
+      if (minDimension < 360) {
+        setWheelSize(260);
+      } else if (minDimension < 500) {
+        setWheelSize(310);
       } else if (minDimension < 768) {
         setWheelSize(420);
       } else {
@@ -207,7 +209,8 @@ export default function TabletWheelPage() {
 
       ctx.fillStyle = reward.textColor;
       // Bold larger font for tablet display
-      ctx.font = "800 14px 'Plus Jakarta Sans', sans-serif";
+      const fontSize = Math.max(10, Math.min(14, Math.floor(size / 30)));
+      ctx.font = `800 ${fontSize}px 'Plus Jakarta Sans', sans-serif`;
       ctx.textAlign = "right";
       ctx.textBaseline = "middle";
       ctx.fillText(reward.text, radius - 38, 0);
