@@ -776,6 +776,20 @@
   ],
   "spinRewards": [
     {
+      "id": "spin-tablet-1783180703893-76800",
+      "tableId": "tablet",
+      "tableName": "Tablet Wheel",
+      "reward": "+10 Coins",
+      "rewardType": "coins",
+      "rewardValue": 10,
+      "icon": "🪙",
+      "token": "b3204a998574bfac46a301c74e18d35df9959e52b8612e362c5dfc94c654bb01",
+      "timestamp": "2026-07-04T15:58:23.893Z",
+      "expiresAt": "2026-07-05T15:58:23.893Z",
+      "status": "claimed",
+      "claimedAt": "2026-07-04T15:58:23.893Z"
+    },
+    {
       "id": "spin-1783144372609-77381",
       "tableId": "1",
       "tableName": "Table 1",

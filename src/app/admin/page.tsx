@@ -586,32 +586,43 @@ export default function AdminDashboard() {
 
       {/* CORE PORTAL TABS NAVIGATION */}
       <div className="max-w-7xl mx-auto w-full px-6 mt-6">
-        <div className="flex flex-wrap gap-2.5 border-b border-white/5 pb-3">
-          {[
-            { id: "calls", label: "Waiter Calls", count: activeRequests.length },
-            { id: "rewards", label: "Wheel Rewards", count: spinRewards.filter(r => r.status === "pending").length },
-            { id: "tables", label: "Tables & QRs", count: tables.length },
-            { id: "media", label: "Media CMS", count: 0 }
-          ].map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
-              className={`px-5 py-3 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer flex items-center gap-2 border ${
-                activeTab === tab.id
-                  ? "bg-red text-white border-red shadow-md"
-                  : "bg-white/5 text-white/60 border-white/5 hover:bg-white/10"
-              }`}
-            >
-              <span>{tab.label}</span>
-              {tab.count > 0 && (
-                <span className={`px-2 py-0.5 rounded-md text-[8px] font-mono ${
-                  activeTab === tab.id ? "bg-white text-red" : "bg-red text-white"
-                }`}>
-                  {tab.count}
-                </span>
-              )}
-            </button>
-          ))}
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/5 pb-3">
+          <div className="flex flex-wrap gap-2.5">
+            {[
+              { id: "calls", label: "Waiter Calls", count: activeRequests.length },
+              { id: "rewards", label: "Wheel Rewards", count: spinRewards.filter(r => r.status === "pending").length },
+              { id: "tables", label: "Tables & QRs", count: tables.length },
+              { id: "media", label: "Media CMS", count: 0 }
+            ].map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className={`px-5 py-3 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer flex items-center gap-2 border ${
+                  activeTab === tab.id
+                    ? "bg-red text-white border-red shadow-md"
+                    : "bg-white/5 text-white/60 border-white/5 hover:bg-white/10"
+                }`}
+              >
+                <span>{tab.label}</span>
+                {tab.count > 0 && (
+                  <span className={`px-2 py-0.5 rounded-md text-[8px] font-mono ${
+                    activeTab === tab.id ? "bg-white text-red" : "bg-red text-white"
+                  }`}>
+                    {tab.count}
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+
+          <a
+            href="/tablet-wheel"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-5 py-3 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all cursor-pointer flex items-center gap-2 border bg-gradient-to-tr from-gold to-gold-light text-[#0D1A38] border-gold hover:brightness-110 shadow-md active:scale-95 font-bold"
+          >
+            <span>🎡 Open Tablet Lucky Wheel</span>
+          </a>
         </div>
       </div>
 
