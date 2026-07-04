@@ -455,14 +455,14 @@ export default function TabletWheelPage() {
                 <Sparkles className="w-3.5 h-3.5 text-gold anim-float" />
               </span>
 
-              <h2 className="text-4xl font-black font-serif text-white mb-4 tracking-wide leading-tight">
+              <h2 className="text-2xl sm:text-4xl font-black font-serif text-white mb-4 tracking-wide leading-tight">
                 CONGRATULATIONS!
               </h2>
 
               <div className="h-0.5 w-24 bg-gradient-to-r from-transparent via-gold to-transparent mb-8"></div>
 
               <span className="text-white/40 text-[10px] uppercase font-black tracking-widest mb-1.5">Your Reward</span>
-              <div className="text-5xl font-black font-serif text-gold-light mb-6 tracking-wide drop-shadow-md">
+              <div className="text-3xl sm:text-5xl font-black font-serif text-gold-light mb-6 tracking-wide drop-shadow-md">
                 {activeReward.reward}
               </div>
 
@@ -473,7 +473,7 @@ export default function TabletWheelPage() {
               {/* NEXT CUSTOMER BUTTON */}
               <button 
                 onClick={handleNextCustomer}
-                className="w-full py-4.5 gold-btn text-xs uppercase tracking-widest font-black shadow-2xl border-none hover:scale-102 transition-transform active:scale-98"
+                className="w-full py-4 gold-btn text-xs uppercase tracking-widest font-black shadow-2xl border-none hover:scale-102 transition-transform active:scale-98"
                 style={{
                   boxShadow: "0 10px 30px rgba(200, 144, 58, 0.3)"
                 }}
