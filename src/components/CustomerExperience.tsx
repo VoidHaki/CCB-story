@@ -1322,7 +1322,7 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
             <p className="text-[10px] text-white/60 mt-1 font-semibold">Share your coffee moments and rate us on Google. It helps our staff keep brewing the best cup!</p>
           </div>
           <a
-            href="https://g.page/r/cafecoffeebreak/review"
+            href="https://www.google.co.in/maps/place/Caf%C3%A9+Coffee+Break-CCB/@26.2807088,73.0348438,17z/data=!3m1!4b1!4m6!3m5!1s0x39418c56f618f363:0x7e28d3a0cd9c0b09!8m2!3d26.280704!4d73.0374187!16s%2Fg%2F11clsfpd5l?entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D"
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => playSynthSound("success")}
@@ -1571,7 +1571,7 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
                   <span>Instagram</span>
                 </a>
                 <a 
-                  href="https://g.page/r/cafecoffeebreak/review" 
+                  href="https://www.google.co.in/maps/place/Caf%C3%A9+Coffee+Break-CCB/@26.2807088,73.0348438,17z/data=!3m1!4b1!4m6!3m5!1s0x39418c56f618f363:0x7e28d3a0cd9c0b09!8m2!3d26.280704!4d73.0374187!16s%2Fg%2F11clsfpd5l?entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-red hover:bg-red text-[9px] font-black uppercase tracking-wider transition-all flex items-center gap-1"
