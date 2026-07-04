@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node -e \"const fs=require('fs'); fs.writeFileSync('public/env-keys.txt', Object.keys(process.env).filter(k=>!k.toLowerCase().includes('secret')&&!k.toLowerCase().includes('password')).join('\\n'))\" && next build",
     "start": "next start",
     "lint": "eslint"
   },
