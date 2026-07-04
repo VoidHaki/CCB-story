@@ -207,7 +207,7 @@ export default function TabletWheelPage() {
 
       ctx.fillStyle = reward.textColor;
       // Bold larger font for tablet display
-      ctx.font = "black 14px var(--font-sans), sans-serif";
+      ctx.font = "800 14px 'Plus Jakarta Sans', sans-serif";
       ctx.textAlign = "right";
       ctx.textBaseline = "middle";
       ctx.fillText(reward.text, radius - 38, 0);
@@ -374,11 +374,10 @@ export default function TabletWheelPage() {
               <canvas ref={canvasRef} />
             </div>
 
-            {/* Premium center cap button */}
             <button 
               onClick={handleSpinWheel}
               disabled={isSpinning}
-              className="absolute inset-50 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full flex flex-col items-center justify-center border-4 border-navy shadow-2xl transition-all select-none hover:scale-105 active:scale-95 disabled:opacity-90 disabled:cursor-not-allowed"
+              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full flex flex-col items-center justify-center border-4 border-navy shadow-2xl transition-all select-none hover:scale-105 active:scale-95 disabled:opacity-90 disabled:cursor-not-allowed"
               style={{
                 background: "radial-gradient(circle at 35% 35%, #FFFFFF 0%, #FFF5CC 40%, #C8903A 80%, #8A5A00 100%)",
                 boxShadow: "inset 0 4px 8px rgba(255, 255, 255, 0.9), 0 8px 24px rgba(0, 0, 0, 0.4)"
