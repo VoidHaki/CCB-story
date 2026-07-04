@@ -34,7 +34,7 @@ export interface SpinReward {
   tableId: string;
   tableName: string;
   reward: string;
-  rewardType: "coins" | "discount" | "food" | "mystery" | "bonus";
+  rewardType: "coins" | "discount" | "food" | "mystery" | "bonus" | "luck";
   rewardValue: string | number;
   icon: string;
   token: string; // HMAC encrypted token for verification

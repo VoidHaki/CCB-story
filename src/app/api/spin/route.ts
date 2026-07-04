@@ -5,18 +5,18 @@ import { runTransaction, SpinReward, generateRewardToken } from "@/lib/db";
 
 // Unified 12 rewards matching the frontend wheel sectors exactly (index 0 to 11)
 const SPIN_REWARDS = [
-  { reward: "+5 Coins",     type: "coins"    as const, value: 5,            icon: "🪙", weight: 28 },
-  { reward: "10% Off",      type: "discount" as const, value: "10%",        icon: "🏷️", weight: 6  },
-  { reward: "+10 Coins",    type: "coins"    as const, value: 10,           icon: "🪙", weight: 22 },
-  { reward: "Free Coffee",  type: "food"     as const, value: "Free Coffee",icon: "☕", weight: 1  },
-  { reward: "+15 Coins",    type: "coins"    as const, value: 15,           icon: "🪙", weight: 16 },
-  { reward: "Mystery Gift", type: "mystery"  as const, value: "Mystery Gift",icon: "🎁", weight: 2  },
-  { reward: "+20 Coins",    type: "coins"    as const, value: 20,           icon: "🪙", weight: 11 },
-  { reward: "Free Brownie", type: "food"     as const, value: "Free Brownie",icon: "🍰", weight: 0.7},
-  { reward: "+25 Coins",    type: "coins"    as const, value: 25,           icon: "🪙", weight: 7  },
-  { reward: "15% Off",      type: "discount" as const, value: "15%",        icon: "🏷️", weight: 4  },
-  { reward: "Lucky Bonus",  type: "bonus"    as const, value: 50,           icon: "✨", weight: 3  },
-  { reward: "Free Pizza",   type: "food"     as const, value: "Free Pizza", icon: "🍕", weight: 0.3},
+  { reward: "+5 Coins",     type: "coins"    as const, value: 5,            icon: "🪙", weight: 50 },
+  { reward: "10% Off",      type: "discount" as const, value: "10%",        icon: "🏷️", weight: 0.1 },
+  { reward: "+10 Coins",    type: "coins"    as const, value: 10,           icon: "🪙", weight: 40 },
+  { reward: "Free Coffee",  type: "food"     as const, value: "Free Coffee",icon: "☕", weight: 0 },
+  { reward: "+15 Coins",    type: "coins"    as const, value: 15,           icon: "🪙", weight: 30 },
+  { reward: "Mystery Gift", type: "mystery"  as const, value: "Mystery Gift",icon: "🎁", weight: 0 },
+  { reward: "+20 Coins",    type: "coins"    as const, value: 20,           icon: "🪙", weight: 20 },
+  { reward: "Free Brownie", type: "food"     as const, value: "Free Brownie",icon: "🍰", weight: 0 },
+  { reward: "+25 Coins",    type: "coins"    as const, value: 25,           icon: "🪙", weight: 10 },
+  { reward: "15% Off",      type: "discount" as const, value: "15%",        icon: "🏷️", weight: 0.1 },
+  { reward: "Lucky Bonus",  type: "bonus"    as const, value: 50,           icon: "✨", weight: 5 },
+  { reward: "Better Luck!", type: "luck"     as const, value: "Better Luck",icon: "🍀", weight: 35 },
 ];
 
 const COOLDOWN_DURATION = 2 * 60 * 60 * 1000; // 2 hours
@@ -125,7 +125,7 @@ export async function POST(req: Request) {
         token,
         timestamp,
         expiresAt,
-        status: "pending",
+        status: picked.type === "luck" ? "claimed" : "pending",
         deviceId,
         fingerprint
       };

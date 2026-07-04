@@ -49,7 +49,7 @@ const WHEEL_REWARDS = [
   { text: "+25 Coins",    type: "coins",    value: 25,           icon: "🪙", color: "#1E2E56", textColor: "#FFFFFF" },
   { text: "15% Off",      type: "discount", value: "15%",        icon: "🏷️", color: "#F4F6F9", textColor: "#1E2E56" },
   { text: "Lucky Bonus",  type: "bonus",    value: 50,           icon: "✨", color: "#D91F3A", textColor: "#FFFFFF" },
-  { text: "Free Pizza",   type: "food",     value: "Free Pizza", icon: "🍕", color: "#C07D34", textColor: "#FFFFFF" }
+  { text: "Better Luck!", type: "luck",     value: "Better Luck",icon: "🍀", color: "#C07D34", textColor: "#FFFFFF" }
 ];
 
 // Lazy-loading video component to optimize network bandwidth and prevent first-load lag
@@ -227,7 +227,9 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
       const rewardsRes = await fetch(`/api/spin?tableId=${tId}`);
       if (rewardsRes.ok) {
         const rewardsData = await rewardsRes.json();
-        setTableRewards(rewardsData);
+        // Filter out luck rewards from display history
+        const filteredRewards = rewardsData.filter((r: any) => r.rewardType !== "luck");
+        setTableRewards(filteredRewards);
       }
     } catch (e) {
       console.error("Error syncing spin status and rewards:", e);
@@ -648,7 +650,9 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
         setShowSpinPopup(false);
         playSynthSound("success");
 
-        const coinsAmount = typeof activeSpinReward.rewardValue === "number" ? activeSpinReward.rewardValue : 15;
+        const coinsAmount = typeof activeSpinReward.rewardValue === "number" 
+          ? activeSpinReward.rewardValue 
+          : parseInt(activeSpinReward.rewardValue as string) || 15;
         
         // Flying coins animation setup
         const newCoins = Array.from({ length: Math.min(coinsAmount, 15) }).map((_, i) => ({
@@ -1377,7 +1381,30 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
               </div>
 
               {/* COINS POPUP CELEBRATION DESIGN */}
-              {activeSpinReward.rewardType === "coins" || activeSpinReward.rewardType === "bonus" ? (
+              {activeSpinReward.rewardType === "luck" ? (
+                <>
+                  <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-1.5">🍀 Better Luck Next Time</span>
+                  <h3 className="text-2xl font-black font-serif text-navy mb-3 leading-tight">
+                    Better luck next time!
+                  </h3>
+                  
+                  <p className="text-[10.5px] text-gray-600 max-w-xs leading-relaxed mb-5 font-semibold">
+                    No reward won this time. Don't worry, you can spin the Lucky Brew wheel again after the 2-hour cooldown expires! Keep dining to earn more chances.
+                  </p>
+
+                  <div className="w-full">
+                    <button 
+                      onClick={() => {
+                        setShowSpinPopup(false);
+                        setActiveSpinReward(null);
+                      }}
+                      className="w-full py-3.5 btn-red text-xs uppercase tracking-wider font-extrabold cursor-pointer rounded-xl"
+                    >
+                      Try Again
+                    </button>
+                  </div>
+                </>
+              ) : activeSpinReward.rewardType === "coins" || activeSpinReward.rewardType === "bonus" ? (
                 <>
                   <span className="text-[10px] font-black text-red uppercase tracking-widest mb-1.5">🎉 Congratulations!</span>
                   <h3 className="text-2xl font-black font-serif text-navy mb-3 leading-tight">

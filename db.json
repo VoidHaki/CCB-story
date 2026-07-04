@@ -31,15 +31,100 @@
   ],
   "requests": [
     {
+      "id": "req-1783144730402-998",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "11:28:50 AM",
+      "status": "pending"
+    },
+    {
+      "id": "req-1783144730366-930",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "11:28:50 AM",
+      "status": "pending"
+    },
+    {
+      "id": "req-1783144721703-849",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "11:28:41 AM",
+      "status": "pending"
+    },
+    {
+      "id": "req-1783144721662-728",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "11:28:41 AM",
+      "status": "pending"
+    },
+    {
+      "id": "req-1783144712888-320",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "11:28:32 AM",
+      "status": "pending"
+    },
+    {
+      "id": "req-1783144712858-140",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "11:28:32 AM",
+      "status": "pending"
+    }
+  ],
+  "history": [
+    {
+      "id": "req-1783144449106-8",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "11:24:09 AM",
+      "status": "resolved",
+      "resolvedTime": "11:25:15 AM"
+    },
+    {
+      "id": "req-1783144435847-868",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "11:23:55 AM",
+      "status": "resolved",
+      "resolvedTime": "11:25:14 AM"
+    },
+    {
+      "id": "req-1783144435891-818",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "11:23:55 AM",
+      "status": "resolved",
+      "resolvedTime": "11:25:13 AM"
+    },
+    {
+      "id": "req-1783144449162-452",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "11:24:09 AM",
+      "status": "resolved",
+      "resolvedTime": "11:25:12 AM"
+    },
+    {
       "id": "req-1783095410059-844",
       "tableId": "1",
       "tableName": "Table 1",
       "type": "Reward Claim - +15 Coins (45468)",
       "time": "09:46:50 PM",
-      "status": "pending"
-    }
-  ],
-  "history": [
+      "status": "resolved",
+      "resolvedTime": "11:23:37 AM"
+    },
     {
       "id": "req-1783013352546-304",
       "tableId": "1",
@@ -690,6 +775,37 @@
     }
   ],
   "spinRewards": [
+    {
+      "id": "spin-1783144372609-77381",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "reward": "Better Luck!",
+      "rewardType": "luck",
+      "rewardValue": "Better Luck",
+      "icon": "🍀",
+      "token": "309577d1032d1f80ee23102c878875969383c5b9ffdc5fabdd5b80acaf113321",
+      "timestamp": "2026-07-04T05:52:52.609Z",
+      "expiresAt": "2026-07-05T05:52:52.603Z",
+      "status": "claimed",
+      "deviceId": "9d9654eb-dbe2-47c5-8f1a-d4b4b8608441",
+      "fingerprint": "942de39da84b5c5aaf5cfb0583db2246"
+    },
+    {
+      "id": "spin-1783143861067-91654",
+      "tableId": "12",
+      "tableName": "Table 12",
+      "reward": "+15 Coins",
+      "rewardType": "coins",
+      "rewardValue": 15,
+      "icon": "🪙",
+      "token": "73bdcd35b5b6ee1bd48d705256295fcbffb7a51b50eb4f056e6fc8fd9aa7e3bc",
+      "timestamp": "2026-07-04T05:44:21.067Z",
+      "expiresAt": "2026-07-05T05:44:21.063Z",
+      "status": "claimed",
+      "deviceId": "75f3b014-96f7-48a9-8579-19b1ecd1fb15",
+      "fingerprint": "642eb3eb4bd7f865123ee5b91a4bc867",
+      "claimedAt": "2026-07-04T05:44:44.351Z"
+    },
     {
       "id": "spin-1783095402130-45468",
       "tableId": "1",

@@ -111,7 +111,7 @@ export default function AdminDashboard() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (passcode === "ccbstaff") {
+    if (passcode === "2525") {
       setIsAuthenticated(true);
       setLoginError("");
       if (typeof window !== "undefined") {
@@ -134,55 +134,91 @@ export default function AdminDashboard() {
     if (!soundEnabled) return;
     try {
       const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      
-      osc.connect(gain);
-      gain.connect(ctx.destination);
       
       if (type === "waiter") {
-        // Dual tone ding ding
         const now = ctx.currentTime;
-        osc.frequency.setValueAtTime(880, now);
-        osc.frequency.setValueAtTime(1046, now + 0.12);
-        gain.gain.setValueAtTime(0.08, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
-        osc.start();
-        osc.stop(now + 0.5);
+        const osc1 = ctx.createOscillator();
+        const osc2 = ctx.createOscillator();
+        const gainNode = ctx.createGain();
+
+        osc1.type = "sine";
+        osc2.type = "sine";
+
+        osc1.frequency.setValueAtTime(659.25, now);
+        osc1.frequency.exponentialRampToValueAtTime(880.00, now + 0.15);
+        
+        osc2.frequency.setValueAtTime(880.00, now);
+        osc2.frequency.exponentialRampToValueAtTime(1100.00, now + 0.15);
+
+        osc1.connect(gainNode);
+        osc2.connect(gainNode);
+        gainNode.connect(ctx.destination);
+
+        gainNode.gain.setValueAtTime(0.45, now);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
+
+        osc1.start(now);
+        osc2.start(now);
+        osc1.stop(now + 0.8);
+        osc2.stop(now + 0.8);
       } else if (type === "bill") {
-        // Chime arpeggio
         const now = ctx.currentTime;
-        osc.frequency.setValueAtTime(587.33, now); // D5
-        osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
-        osc.frequency.setValueAtTime(880.00, now + 0.16); // A5
-        gain.gain.setValueAtTime(0.08, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
-        osc.start();
-        osc.stop(now + 0.6);
-      } else if (type === "reward") {
-        // Magical sparkle arpeggio
-        const now = ctx.currentTime;
-        osc.frequency.setValueAtTime(523.25, now); // C5
-        osc.frequency.setValueAtTime(659.25, now + 0.06); // E5
-        osc.frequency.setValueAtTime(783.99, now + 0.12); // G5
-        osc.frequency.setValueAtTime(1046.50, now + 0.18); // C6
-        gain.gain.setValueAtTime(0.06, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
-        osc.start();
-        osc.stop(now + 0.8);
-      } else if (type === "success") {
-        osc.frequency.setValueAtTime(523, ctx.currentTime);
-        osc.frequency.setValueAtTime(659, ctx.currentTime + 0.08);
-        gain.gain.setValueAtTime(0.05, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.25);
-      } else if (type === "delete") {
-        osc.frequency.setValueAtTime(300, ctx.currentTime);
-        gain.gain.setValueAtTime(0.05, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.2);
+        const osc1 = ctx.createOscillator();
+        const osc2 = ctx.createOscillator();
+        const gainNode = ctx.createGain();
+
+        osc1.type = "sine";
+        osc2.type = "triangle";
+
+        osc1.frequency.setValueAtTime(523.25, now);
+        osc1.frequency.setValueAtTime(659.25, now + 0.1);
+        osc1.frequency.setValueAtTime(783.99, now + 0.2);
+        osc1.frequency.setValueAtTime(1046.50, now + 0.3);
+
+        osc2.frequency.setValueAtTime(261.63, now);
+        osc2.frequency.setValueAtTime(329.63, now + 0.15);
+
+        osc1.connect(gainNode);
+        osc2.connect(gainNode);
+        gainNode.connect(ctx.destination);
+
+        gainNode.gain.setValueAtTime(0.45, now);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.9);
+
+        osc1.start(now);
+        osc2.start(now);
+        osc1.stop(now + 0.9);
+        osc2.stop(now + 0.9);
+      } else {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        if (type === "reward") {
+          const now = ctx.currentTime;
+          osc.frequency.setValueAtTime(523.25, now);
+          osc.frequency.setValueAtTime(659.25, now + 0.06);
+          osc.frequency.setValueAtTime(783.99, now + 0.12);
+          osc.frequency.setValueAtTime(1046.50, now + 0.18);
+          gain.gain.setValueAtTime(0.06, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
+          osc.start();
+          osc.stop(now + 0.8);
+        } else if (type === "success") {
+          osc.frequency.setValueAtTime(523, ctx.currentTime);
+          osc.frequency.setValueAtTime(659, ctx.currentTime + 0.08);
+          gain.gain.setValueAtTime(0.05, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.25);
+        } else if (type === "delete") {
+          osc.frequency.setValueAtTime(300, ctx.currentTime);
+          gain.gain.setValueAtTime(0.05, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.2);
+        }
       }
     } catch (e) {
       console.error(e);
