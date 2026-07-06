@@ -184,7 +184,7 @@ export default function AdminDashboard() {
         osc2.connect(gainNode);
         gainNode.connect(ctx.destination);
 
-        gainNode.gain.setValueAtTime(0.45, now);
+        gainNode.gain.setValueAtTime(0.9, now);
         gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
 
         osc1.start(now);
@@ -212,7 +212,7 @@ export default function AdminDashboard() {
         osc2.connect(gainNode);
         gainNode.connect(ctx.destination);
 
-        gainNode.gain.setValueAtTime(0.45, now);
+        gainNode.gain.setValueAtTime(0.9, now);
         gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.9);
 
         osc1.start(now);
@@ -231,20 +231,20 @@ export default function AdminDashboard() {
           osc.frequency.setValueAtTime(659.25, now + 0.06);
           osc.frequency.setValueAtTime(783.99, now + 0.12);
           osc.frequency.setValueAtTime(1046.50, now + 0.18);
-          gain.gain.setValueAtTime(0.06, now);
+          gain.gain.setValueAtTime(0.5, now);
           gain.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
           osc.start();
           osc.stop(now + 0.8);
         } else if (type === "success") {
           osc.frequency.setValueAtTime(523, ctx.currentTime);
           osc.frequency.setValueAtTime(659, ctx.currentTime + 0.08);
-          gain.gain.setValueAtTime(0.05, ctx.currentTime);
+          gain.gain.setValueAtTime(0.45, ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
           osc.start();
           osc.stop(ctx.currentTime + 0.25);
         } else if (type === "delete") {
           osc.frequency.setValueAtTime(300, ctx.currentTime);
-          gain.gain.setValueAtTime(0.05, ctx.currentTime);
+          gain.gain.setValueAtTime(0.4, ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
           osc.start();
           osc.stop(ctx.currentTime + 0.2);

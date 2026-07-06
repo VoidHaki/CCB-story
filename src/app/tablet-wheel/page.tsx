@@ -8,12 +8,12 @@ import Link from "next/link";
 
 // 12-sector array of rewards matching the backend api precisely
 const TABLET_WHEEL_REWARDS = [
-  { text: "+5 Coins",     type: "coins",    value: 5,            icon: "🪙", color: "#1E2E56", textColor: "#FFFFFF" },
+  { text: "+25 Coins",    type: "coins",    value: 25,           icon: "🪙", color: "#1E2E56", textColor: "#FFFFFF" },
   { text: "10% Off",      type: "discount", value: "10%",        icon: "🏷️", color: "#F4F6F9", textColor: "#1E2E56" },
-  { text: "+10 Coins",    type: "coins",    value: 10,           icon: "🪙", color: "#D91F3A", textColor: "#FFFFFF" },
+  { text: "+20 Coins",    type: "coins",    value: 20,           icon: "🪙", color: "#D91F3A", textColor: "#FFFFFF" },
   { text: "Free Coffee",  type: "food",     value: "Free Coffee",icon: "☕", color: "#C07D34", textColor: "#FFFFFF" },
   { text: "+15 Coins",    type: "coins",    value: 15,           icon: "🪙", color: "#1E2E56", textColor: "#FFFFFF" },
-  { text: "+5 Coins",     type: "coins",    value: 5,            icon: "🪙", color: "#F4F6F9", textColor: "#1E2E56" },
+  { text: "+30 Coins",    type: "coins",    value: 30,           icon: "🪙", color: "#F4F6F9", textColor: "#1E2E56" },
   { text: "+20 Coins",    type: "coins",    value: 20,           icon: "🪙", color: "#D91F3A", textColor: "#FFFFFF" },
   { text: "Free Brownie", type: "food",     value: "Free Brownie",icon: "🍫", color: "#C07D34", textColor: "#FFFFFF" },
   { text: "+10 Coins",    type: "coins",    value: 10,           icon: "🪙", color: "#1E2E56", textColor: "#FFFFFF" },
@@ -135,12 +135,12 @@ export default function TabletWheelPage() {
 
     // 1. Outer deep luxury gold 3D drop shadow rim
     ctx.save();
-    ctx.shadowColor = "rgba(13, 26, 56, 0.45)";
+    ctx.shadowColor = "rgba(13, 26, 56, 0.12)";
     ctx.shadowBlur = 20;
     ctx.shadowOffsetY = 12;
     ctx.beginPath();
     ctx.arc(cx, cy, radius + 10, 0, Math.PI * 2);
-    ctx.fillStyle = "#0A122C";
+    ctx.fillStyle = "#FFFFFF";
     ctx.fill();
     ctx.restore();
 
@@ -313,24 +313,24 @@ export default function TabletWheelPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0D1A38] text-white flex flex-col font-sans relative overflow-hidden bg-grid">
+    <div className="min-h-screen bg-[#F8F9FA] text-navy flex flex-col font-sans relative overflow-hidden bg-grid">
       
       {/* GLOW DECORATIONS */}
-      <div className="absolute top-[-20%] left-[-20%] w-[60%] aspect-square rounded-full bg-red/10 blur-[120px] pointer-events-none z-0"></div>
-      <div className="absolute bottom-[-20%] right-[-20%] w-[60%] aspect-square rounded-full bg-gold/10 blur-[120px] pointer-events-none z-0"></div>
+      <div className="absolute top-[-20%] left-[-20%] w-[60%] aspect-square rounded-full bg-red/5 blur-[120px] pointer-events-none z-0"></div>
+      <div className="absolute bottom-[-20%] right-[-20%] w-[60%] aspect-square rounded-full bg-gold/5 blur-[120px] pointer-events-none z-0"></div>
 
       {/* HEADER SECTION */}
-      <header className="z-10 px-8 py-6 flex items-center justify-between border-b border-white/5 bg-[#0C152B]/90 backdrop-blur-md">
+      <header className="z-10 px-8 py-6 flex items-center justify-between border-b border-gray-200/60 bg-white/80 backdrop-blur-md">
         <div className="flex items-center gap-4">
           <Link 
             href="/admin"
-            className="p-3 rounded-xl bg-white/5 border border-white/10 hover:border-red/40 text-white hover:text-red transition-all flex items-center justify-center cursor-pointer shadow-inner"
+            className="p-3 rounded-xl bg-white border border-gray-200 hover:border-red/40 text-navy hover:text-red transition-all flex items-center justify-center cursor-pointer shadow-sm"
           >
             <ChevronLeft className="w-5 h-5" />
           </Link>
           <div>
             <span className="block text-[9px] font-black text-red uppercase tracking-widest leading-none">Café Coffee Break</span>
-            <h1 className="text-lg font-black text-white uppercase tracking-wider mt-1.5 leading-none">Tablet Lucky Wheel</h1>
+            <h1 className="text-lg font-black text-navy uppercase tracking-wider mt-1.5 leading-none">Tablet Lucky Wheel</h1>
           </div>
         </div>
 
@@ -338,12 +338,12 @@ export default function TabletWheelPage() {
         <div className="flex items-center gap-3">
           <button
             onClick={() => setSoundEnabled(!soundEnabled)}
-            className="p-3 rounded-xl bg-white/5 border border-white/10 text-white hover:text-red hover:border-red/30 transition-all cursor-pointer shadow-md"
+            className="p-3 rounded-xl bg-white border border-gray-200 text-navy hover:text-red hover:border-red/30 transition-all cursor-pointer shadow-sm"
             title="Toggle Sounds"
           >
-            {soundEnabled ? <Volume2 className="w-5 h-5 text-red" /> : <VolumeX className="w-5 h-5 text-white/50" />}
+            {soundEnabled ? <Volume2 className="w-5 h-5 text-red" /> : <VolumeX className="w-5 h-5 text-navy/50" />}
           </button>
-          <span className="px-4 py-2 rounded-xl bg-red/10 text-red border border-red/20 text-[10px] font-black uppercase tracking-widest shadow-md">
+          <span className="px-4 py-2 rounded-xl bg-red/5 text-red border border-red/20 text-[10px] font-black uppercase tracking-widest shadow-sm">
             Kiosk Mode
           </span>
         </div>
@@ -352,10 +352,10 @@ export default function TabletWheelPage() {
       {/* MAIN LAYOUT */}
       <main className="flex-1 flex flex-col items-center justify-center p-8 z-10 relative">
         <div className="text-center mb-8 max-w-xl">
-          <h2 className="text-4xl font-black font-serif text-white uppercase tracking-wider glow-text">
+          <h2 className="text-4xl font-black font-serif text-navy uppercase tracking-wider">
             Lucky Brew Draw
           </h2>
-          <p className="text-xs text-white/50 mt-3.5 leading-relaxed font-semibold">
+          <p className="text-xs text-gray-600 mt-3.5 leading-relaxed font-semibold">
             Café reward drawing. Spin the wheel to win CCB coins or high-value café vouchers instantly!
           </p>
         </div>
@@ -364,7 +364,7 @@ export default function TabletWheelPage() {
         <div className="relative p-6 select-none">
           {/* Metallic Gold rim frame */}
           <div className="relative rounded-full" style={{
-            boxShadow: "0 25px 70px rgba(0, 0, 0, 0.6), 0 0 0 10px rgba(200, 144, 58, 0.15)"
+            boxShadow: "0 25px 70px rgba(30, 46, 86, 0.15), 0 0 0 10px rgba(200, 144, 58, 0.1)"
           }}>
             {/* Rotating Canvas Wrapper */}
             <div 
@@ -411,7 +411,7 @@ export default function TabletWheelPage() {
         </div>
 
         {/* BOTTOM HELPER INSCRIPTION */}
-        <span className="mt-8 text-[10px] font-bold text-white/30 uppercase tracking-widest">
+        <span className="mt-8 text-[10px] font-bold text-navy/40 uppercase tracking-widest">
           Controlled by Café Staff • No timer restrictions
         </span>
       </main>
@@ -423,24 +423,24 @@ export default function TabletWheelPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-navy-darker/95 backdrop-blur-md"
+            className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-navy-darker/60 backdrop-blur-md"
           >
             <motion.div 
               initial={{ scale: 0.85, opacity: 0, y: 30 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.85, opacity: 0, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 220 }}
-              className="w-full max-w-lg glass-panel p-10 flex flex-col items-center text-center shadow-2xl relative overflow-hidden rounded-[36px] border-white/10 bg-[#0C142A]/90"
+              className="w-full max-w-lg p-10 flex flex-col items-center text-center shadow-2xl relative overflow-hidden rounded-[36px] border border-gray-200 bg-white"
               style={{
-                boxShadow: "0 30px 80px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 0 1px rgba(200, 144, 58, 0.25)"
+                boxShadow: "0 30px 80px rgba(30, 46, 86, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 0 0 1px rgba(200, 144, 58, 0.15)"
               }}
             >
               {/* Sparkle background decoration */}
               <div className="absolute inset-0 opacity-10 bg-radial-gradient pointer-events-none"></div>
 
               {/* Gold Winner Crest Icon */}
-              <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-gold to-gold-light p-1 shadow-2xl mb-8 relative">
-                <div className="w-full h-full rounded-full bg-[#0D1A38] flex items-center justify-center text-5xl">
+              <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-gold to-gold-light p-1 shadow-xl mb-8 relative">
+                <div className="w-full h-full rounded-full bg-white flex items-center justify-center text-5xl border border-gold/10">
                   {activeReward.icon}
                 </div>
                 <div className="absolute -top-1.5 -right-1.5 w-6 h-6 rounded-full bg-red flex items-center justify-center text-[10px] shadow-md border border-white">
@@ -455,18 +455,18 @@ export default function TabletWheelPage() {
                 <Sparkles className="w-3.5 h-3.5 text-gold anim-float" />
               </span>
 
-              <h2 className="text-2xl sm:text-4xl font-black font-serif text-white mb-4 tracking-wide leading-tight">
+              <h2 className="text-2xl sm:text-4xl font-black font-serif text-navy mb-4 tracking-wide leading-tight">
                 CONGRATULATIONS!
               </h2>
 
               <div className="h-0.5 w-24 bg-gradient-to-r from-transparent via-gold to-transparent mb-8"></div>
 
-              <span className="text-white/40 text-[10px] uppercase font-black tracking-widest mb-1.5">Your Reward</span>
-              <div className="text-3xl sm:text-5xl font-black font-serif text-gold-light mb-6 tracking-wide drop-shadow-md">
+              <span className="text-navy/40 text-[10px] uppercase font-black tracking-widest mb-1.5">Your Reward</span>
+              <div className="text-3xl sm:text-5xl font-black font-serif text-gold mb-6 tracking-wide drop-shadow-sm">
                 {activeReward.reward}
               </div>
 
-              <p className="text-xs text-white/60 max-w-sm leading-relaxed mb-10 font-semibold">
+              <p className="text-xs text-gray-600 max-w-sm leading-relaxed mb-10 font-semibold">
                 Please present this screen to the cashier or your waiter to claim your treat instantly!
               </p>
 

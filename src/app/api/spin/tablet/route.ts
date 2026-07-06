@@ -2,18 +2,18 @@ import { NextResponse } from "next/server";
 import { runTransaction, SpinReward, generateRewardToken } from "@/lib/db";
 
 const TABLET_REWARDS = [
-  { reward: "+5 Coins",     type: "coins"    as const, value: 5,            icon: "🪙", weight: 50 },
+  { reward: "+25 Coins",    type: "coins"    as const, value: 25,           icon: "🪙", weight: 35 },
   { reward: "10% Off",      type: "discount" as const, value: "10%",        icon: "🏷️", weight: 0.5 },
-  { reward: "+10 Coins",    type: "coins"    as const, value: 10,           icon: "🪙", weight: 40 },
+  { reward: "+20 Coins",    type: "coins"    as const, value: 20,           icon: "🪙", weight: 40 },
   { reward: "Free Coffee",  type: "food"     as const, value: "Free Coffee",icon: "☕", weight: 0.1 },
-  { reward: "+15 Coins",    type: "coins"    as const, value: 15,           icon: "🪙", weight: 30 },
-  { reward: "+5 Coins",     type: "coins"    as const, value: 5,            icon: "🪙", weight: 50 },
-  { reward: "+20 Coins",    type: "coins"    as const, value: 20,           icon: "🪙", weight: 20 },
+  { reward: "+15 Coins",    type: "coins"    as const, value: 15,           icon: "🪙", weight: 45 },
+  { reward: "+30 Coins",    type: "coins"    as const, value: 30,           icon: "🪙", weight: 30 },
+  { reward: "+20 Coins",    type: "coins"    as const, value: 20,           icon: "🪙", weight: 40 },
   { reward: "Free Brownie", type: "food"     as const, value: "Free Brownie",icon: "🍫", weight: 0.1 },
-  { reward: "+10 Coins",    type: "coins"    as const, value: 10,           icon: "🪙", weight: 40 },
+  { reward: "+10 Coins",    type: "coins"    as const, value: 10,           icon: "🪙", weight: 10 },
   { reward: "15% Off",      type: "discount" as const, value: "15%",        icon: "🏷️", weight: 0.3 },
-  { reward: "+15 Coins",    type: "coins"    as const, value: 15,           icon: "🪙", weight: 30 },
-  { reward: "+5 Coins",     type: "coins"    as const, value: 5,            icon: "🪙", weight: 50 },
+  { reward: "+15 Coins",    type: "coins"    as const, value: 15,           icon: "🪙", weight: 45 },
+  { reward: "+5 Coins",     type: "coins"    as const, value: 5,            icon: "🪙", weight: 5 },
 ];
 
 function pickWeightedReward() {

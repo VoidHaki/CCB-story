@@ -29,8 +29,107 @@
       "name": "Table 25"
     }
   ],
-  "requests": [],
+  "requests": [
+    {
+      "id": "req-1783356331471-294",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Reward Claim - +20 Coins (76041)",
+      "time": "10:15:31 PM",
+      "status": "pending"
+    }
+  ],
   "history": [
+    {
+      "id": "req-1783356294429-2",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "10:14:54 PM",
+      "status": "resolved",
+      "resolvedTime": "10:15:13 PM"
+    },
+    {
+      "id": "req-1783356294479-534",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Ask For Bill",
+      "time": "10:14:54 PM",
+      "status": "resolved",
+      "resolvedTime": "10:15:12 PM"
+    },
+    {
+      "id": "req-1783356300524-640",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "10:15:00 PM",
+      "status": "resolved",
+      "resolvedTime": "10:15:12 PM"
+    },
+    {
+      "id": "req-1783356300571-900",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "10:15:00 PM",
+      "status": "resolved",
+      "resolvedTime": "10:15:12 PM"
+    },
+    {
+      "id": "req-1783356308408-387",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "10:15:08 PM",
+      "status": "resolved",
+      "resolvedTime": "10:15:11 PM"
+    },
+    {
+      "id": "req-1783356308462-443",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "10:15:08 PM",
+      "status": "resolved",
+      "resolvedTime": "10:15:11 PM"
+    },
+    {
+      "id": "req-1783356251369-656",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "10:14:11 PM",
+      "status": "resolved",
+      "resolvedTime": "10:14:49 PM"
+    },
+    {
+      "id": "req-1783356251444-58",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "10:14:11 PM",
+      "status": "resolved",
+      "resolvedTime": "10:14:48 PM"
+    },
+    {
+      "id": "req-1783356279454-622",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "10:14:39 PM",
+      "status": "resolved",
+      "resolvedTime": "10:14:48 PM"
+    },
+    {
+      "id": "req-1783356279494-270",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "type": "Waiter Call",
+      "time": "10:14:39 PM",
+      "status": "resolved",
+      "resolvedTime": "10:14:47 PM"
+    },
     {
       "id": "req-1783144712858-140",
       "tableId": "1",
@@ -906,6 +1005,92 @@
     }
   ],
   "spinRewards": [
+    {
+      "id": "spin-tablet-1783356401871-20448",
+      "tableId": "tablet",
+      "tableName": "Tablet Wheel",
+      "reward": "+30 Coins",
+      "rewardType": "coins",
+      "rewardValue": 30,
+      "icon": "🪙",
+      "token": "cb606bdd34d68ce54c9b329a52883103d7b77a9c94ebed266e96e354d68a88e8",
+      "timestamp": "2026-07-06T16:46:41.871Z",
+      "expiresAt": "2026-07-07T16:46:41.871Z",
+      "status": "claimed",
+      "claimedAt": "2026-07-06T16:46:41.871Z"
+    },
+    {
+      "id": "spin-tablet-1783356392322-83613",
+      "tableId": "tablet",
+      "tableName": "Tablet Wheel",
+      "reward": "+20 Coins",
+      "rewardType": "coins",
+      "rewardValue": 20,
+      "icon": "🪙",
+      "token": "494e784c704b5c906178fabd034f712aaa42fddc06c3f02b41cbbf89e64236e5",
+      "timestamp": "2026-07-06T16:46:32.322Z",
+      "expiresAt": "2026-07-07T16:46:32.322Z",
+      "status": "claimed",
+      "claimedAt": "2026-07-06T16:46:32.322Z"
+    },
+    {
+      "id": "spin-tablet-1783356383093-78774",
+      "tableId": "tablet",
+      "tableName": "Tablet Wheel",
+      "reward": "+5 Coins",
+      "rewardType": "coins",
+      "rewardValue": 5,
+      "icon": "🪙",
+      "token": "20a475b921aad720368bc7fce676207d864f8c013e55f2d195a71e78b6cf4c2e",
+      "timestamp": "2026-07-06T16:46:23.093Z",
+      "expiresAt": "2026-07-07T16:46:23.093Z",
+      "status": "claimed",
+      "claimedAt": "2026-07-06T16:46:23.093Z"
+    },
+    {
+      "id": "spin-tablet-1783356373770-60065",
+      "tableId": "tablet",
+      "tableName": "Tablet Wheel",
+      "reward": "+15 Coins",
+      "rewardType": "coins",
+      "rewardValue": 15,
+      "icon": "🪙",
+      "token": "08a78784ee583ebf5893d576848ad50c08c66876d30f8853c0bbb3f51ed99577",
+      "timestamp": "2026-07-06T16:46:13.770Z",
+      "expiresAt": "2026-07-07T16:46:13.770Z",
+      "status": "claimed",
+      "claimedAt": "2026-07-06T16:46:13.770Z"
+    },
+    {
+      "id": "spin-1783356321855-76041",
+      "tableId": "1",
+      "tableName": "Table 1",
+      "reward": "+20 Coins",
+      "rewardType": "coins",
+      "rewardValue": 20,
+      "icon": "🪙",
+      "token": "f7dab26a7e5a3fc89dd8eb897851a8fd539acd449d46f9f61efd8d5b825dcfe9",
+      "timestamp": "2026-07-06T16:45:21.855Z",
+      "expiresAt": "2026-07-07T16:45:21.852Z",
+      "status": "claimed",
+      "deviceId": "9d9654eb-dbe2-47c5-8f1a-d4b4b8608441",
+      "fingerprint": "1adea1bde54fe33da25e4ffd751e8bf0",
+      "claimedAt": "2026-07-06T16:45:36.092Z"
+    },
+    {
+      "id": "spin-tablet-1783349935258-65937",
+      "tableId": "tablet",
+      "tableName": "Tablet Wheel",
+      "reward": "+5 Coins",
+      "rewardType": "coins",
+      "rewardValue": 5,
+      "icon": "🪙",
+      "token": "e381b0605a96910aa4af55f467d475be04945c181431338961c252470958cd7c",
+      "timestamp": "2026-07-06T14:58:55.258Z",
+      "expiresAt": "2026-07-07T14:58:55.258Z",
+      "status": "claimed",
+      "claimedAt": "2026-07-06T14:58:55.258Z"
+    },
     {
       "id": "spin-tablet-1783186705276-67292",
       "tableId": "tablet",

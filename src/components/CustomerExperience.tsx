@@ -46,7 +46,7 @@ const WHEEL_REWARDS = [
   { text: "Mystery Gift", type: "mystery",  value: "Mystery Gift",icon: "🎁", color: "#F4F6F9", textColor: "#1E2E56" },
   { text: "+20 Coins",    type: "coins",    value: 20,           icon: "🪙", color: "#D91F3A", textColor: "#FFFFFF" },
   { text: "Free Brownie", type: "food",     value: "Free Brownie",icon: "🍰", color: "#C07D34", textColor: "#FFFFFF" },
-  { text: "+25 Coins",    type: "coins",    value: 25,           icon: "🪙", color: "#1E2E56", textColor: "#FFFFFF" },
+  { text: "+30 Coins",    type: "coins",    value: 30,           icon: "🪙", color: "#1E2E56", textColor: "#FFFFFF" },
   { text: "15% Off",      type: "discount", value: "15%",        icon: "🏷️", color: "#F4F6F9", textColor: "#1E2E56" },
   { text: "Lucky Bonus",  type: "bonus",    value: 50,           icon: "✨", color: "#D91F3A", textColor: "#FFFFFF" },
   { text: "Better Luck!", type: "luck",     value: "Better Luck",icon: "🍀", color: "#C07D34", textColor: "#FFFFFF" }
@@ -307,14 +307,14 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
       
       if (type === "click") {
         osc1.frequency.setValueAtTime(500, ctx.currentTime);
-        gain1.gain.setValueAtTime(0.015, ctx.currentTime);
+        gain1.gain.setValueAtTime(0.35, ctx.currentTime);
         gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
         osc1.start();
         osc1.stop(ctx.currentTime + 0.04);
       } else if (type === "tick") {
         osc1.type = "triangle";
         osc1.frequency.setValueAtTime(800, ctx.currentTime);
-        gain1.gain.setValueAtTime(0.005, ctx.currentTime);
+        gain1.gain.setValueAtTime(0.15, ctx.currentTime);
         gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.02);
         osc1.start();
         osc1.stop(ctx.currentTime + 0.02);
@@ -330,10 +330,10 @@ export default function CustomerExperience({ defaultTableId }: CustomerExperienc
         osc1.frequency.setValueAtTime(880, ctx.currentTime); 
         osc2.frequency.setValueAtTime(1100, ctx.currentTime); 
 
-        gain1.gain.setValueAtTime(0.02, ctx.currentTime);
+        gain1.gain.setValueAtTime(0.55, ctx.currentTime);
         gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
 
-        gain2.gain.setValueAtTime(0.01, ctx.currentTime);
+        gain2.gain.setValueAtTime(0.35, ctx.currentTime);
         gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
 
         osc1.start();
