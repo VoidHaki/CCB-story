@@ -22,8 +22,10 @@ import {
   Gift,
   Award,
   CheckCircle,
-  AlertCircle
+  AlertCircle,
+  Download
 } from "lucide-react";
+import { QRCodeSVG } from "qrcode.react";
 
 interface Table {
   id: string;
@@ -91,6 +93,7 @@ export default function AdminDashboard() {
   const [editingTable, setEditingTable] = useState<Table | null>(null);
   const [editTableName, setEditTableName] = useState("");
   const [qrModalTable, setQrModalTable] = useState<Table | null>(null);
+  const [qrBaseUrl, setQrBaseUrl] = useState("");
   
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -105,6 +108,10 @@ export default function AdminDashboard() {
       const auth = localStorage.getItem("ccb_admin_auth");
       if (auth === "true") {
         setIsAuthenticated(true);
+      }
+      const savedBaseUrl = localStorage.getItem("ccb_qr_base_url");
+      if (savedBaseUrl) {
+        setQrBaseUrl(savedBaseUrl);
       }
     }
   }, []);
@@ -508,10 +515,54 @@ export default function AdminDashboard() {
   };
 
   const getTableLink = (id: string) => {
+    if (qrBaseUrl) {
+      const base = qrBaseUrl.endsWith("/") ? qrBaseUrl.slice(0, -1) : qrBaseUrl;
+      return `${base}/table/${id}`;
+    }
     if (typeof window !== "undefined") {
       return `${window.location.origin}/table/${id}`;
     }
     return `/table/${id}`;
+  };
+
+  const downloadQrPng = (tableId: string, tableName: string) => {
+    if (typeof window === "undefined") return;
+    const svg = document.getElementById("qr-code-svg-print");
+    if (!svg) {
+      alert("QR code element not found!");
+      return;
+    }
+    try {
+      const svgString = new XMLSerializer().serializeToString(svg);
+      const svgBlob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
+      const URL = window.URL || window.webkitURL || window;
+      const blobURL = URL.createObjectURL(svgBlob);
+      const image = new Image();
+      image.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = 512;
+        canvas.height = 512;
+        const context = canvas.getContext("2d");
+        if (context) {
+          context.fillStyle = "#FFFFFF";
+          context.fillRect(0, 0, 512, 512);
+          // Draw image centered with safety padding
+          context.drawImage(image, 32, 32, 448, 448);
+          const png = canvas.toDataURL("image/png");
+          const downloadLink = document.createElement("a");
+          downloadLink.href = png;
+          downloadLink.download = `${tableName.replace(/\s+/g, "_")}_QR.png`;
+          document.body.appendChild(downloadLink);
+          downloadLink.click();
+          document.body.removeChild(downloadLink);
+        }
+        URL.revokeObjectURL(blobURL);
+      };
+      image.src = blobURL;
+    } catch (e) {
+      console.error("Error generating QR PNG:", e);
+      alert("Failed to export QR PNG. Try using Copy URL or Print Stand instead.");
+    }
   };
 
   // RENDER PORTAL ACCESS LOGIN
@@ -1002,13 +1053,73 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            {/* QR Scanner Display Help stand */}
-            <div className="lg:col-span-5 glass-panel p-6 flex flex-col items-center justify-center text-center min-h-[500px]">
-              <QrCode className="w-16 h-16 text-red mb-4 opacity-40 anim-float" />
-              <h3 className="text-base font-black uppercase tracking-wider text-white">QR Table Generation</h3>
-              <p className="text-[10px] text-white/50 leading-relaxed font-semibold max-w-xs mt-2">
-                Click the QR code icon next to any table to view, print, or copy the direct mapping URL. Scanning the stand automatically selects their seating position!
-              </p>
+            {/* QR Settings & Generator Control Panel */}
+            <div className="lg:col-span-5 glass-panel p-6 flex flex-col min-h-[500px]">
+              <div className="flex items-center gap-3 mb-5 pb-3 border-b border-white/5">
+                <div className="w-9 h-9 rounded-lg bg-red/10 border border-red/20 flex items-center justify-center">
+                  <QrCode className="w-5 h-5 text-red" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-black uppercase tracking-wider text-white">QR Seating Settings</h3>
+                  <span className="text-[9px] text-white/40 font-bold uppercase">Configure scan routing domains</span>
+                </div>
+              </div>
+
+              {/* Base URL Input Form */}
+              <div className="space-y-4 flex-grow">
+                <div className="bg-white/5 border border-white/5 rounded-2xl p-4.5 space-y-3.5">
+                  <div>
+                    <label className="block text-[8px] font-black text-white/40 uppercase mb-1.5">QR Code Base URL Override</label>
+                    <input 
+                      type="url" 
+                      placeholder="e.g. http://192.168.1.15:3000"
+                      value={qrBaseUrl}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setQrBaseUrl(val);
+                        if (typeof window !== "undefined") {
+                          if (val) {
+                            localStorage.setItem("ccb_qr_base_url", val);
+                          } else {
+                            localStorage.removeItem("ccb_qr_base_url");
+                          }
+                        }
+                      }}
+                      className="w-full bg-[#0D1A38] border border-white/10 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-red/40"
+                    />
+                    <span className="block text-[8px] text-white/40 mt-1.5 font-medium leading-normal">
+                      Leave empty to use default domain. Enter your local network IP (e.g. <code>http://192.168.1.25:3000</code>) or public URL so scanned codes load correctly on customers' phones.
+                    </span>
+                  </div>
+                  
+                  <div className="border-t border-white/5 pt-3.5">
+                    <span className="block text-[8px] font-black text-white/40 uppercase mb-1">Evaluated URL Sample (Table 1)</span>
+                    <code className="block text-[9.5px] font-mono text-emerald-400 break-all select-all font-semibold bg-white/5 px-2.5 py-1.5 rounded-lg border border-white/5">
+                      {getTableLink("1")}
+                    </code>
+                  </div>
+                </div>
+
+                {/* Localhost Warning Notice */}
+                {(!qrBaseUrl || getTableLink("1").includes("localhost") || getTableLink("1").includes("127.0.0.1")) && (
+                  <div className="bg-amber-500/10 border border-amber-500/20 text-white/95 p-4 rounded-2xl flex flex-col gap-2 text-left">
+                    <div className="flex items-center gap-2 text-amber-400">
+                      <ShieldAlert className="w-4 h-4" />
+                      <span className="text-[10px] font-black uppercase tracking-wider">Localhost URL Warning</span>
+                    </div>
+                    <p className="text-[9.5px] font-medium leading-relaxed text-white/70">
+                      You are using <strong>localhost</strong>. Scanned QR codes will point to localhost, which will fail to open on customer phones. To fix, enter your server's computer local network IP address in the box above.
+                    </p>
+                  </div>
+                )}
+
+                <div className="text-[9.5px] text-white/40 font-bold uppercase tracking-wider pt-2 flex flex-col gap-2">
+                  <div className="flex items-start gap-2">
+                    <span className="text-red">📌</span>
+                    <span>Direct QR Scan assigns customer seating and routes them to the interactive wheel rewards page instantly.</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
           </div>
@@ -1130,29 +1241,31 @@ export default function AdminDashboard() {
             <h3 className="text-base font-bold text-white mb-4">Print Seating QR: {qrModalTable.name}</h3>
 
             <div className="bg-white p-4.5 rounded-2xl w-48 h-48 flex items-center justify-center mb-4 border border-white/10 shadow-lg">
-              <img 
-                src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(getTableLink(qrModalTable.id))}`}
-                alt={`Table ${qrModalTable.id} QR`}
-                className="w-full h-full object-contain"
+              <QRCodeSVG 
+                id="qr-code-svg-print"
+                value={getTableLink(qrModalTable.id)}
+                size={160}
+                level="H"
               />
             </div>
 
-            <div className="bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-[9px] font-mono text-white/55 mb-6 break-all select-all flex items-center gap-1.5">
-              <span>{getTableLink(qrModalTable.id)}</span>
+            <div className="bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-[9px] font-mono text-white/55 mb-6 break-all select-all flex items-center gap-1.5 w-full justify-center">
+              <span className="truncate max-w-[220px]">{getTableLink(qrModalTable.id)}</span>
               <a 
                 href={getTableLink(qrModalTable.id)} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-red hover:text-red-light"
+                className="text-red hover:text-red-light flex-shrink-0"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 w-full">
+            <div className="grid grid-cols-3 gap-2 w-full">
               <button 
                 onClick={() => {
                   if (typeof window !== "undefined") {
+                    const qrSvgHtml = document.getElementById("qr-code-svg-print")?.outerHTML || "";
                     const printW = window.open("", "_blank");
                     if (printW) {
                       printW.document.write(`
@@ -1165,14 +1278,15 @@ export default function AdminDashboard() {
                               .brand { font-size: 10px; font-weight: 900; letter-spacing: 3px; color: #d91f3a; text-transform: uppercase; margin-bottom: 6px; }
                               .title { font-size: 28px; font-weight: 950; margin-bottom: 24px; text-transform: uppercase; color: #ffffff; font-family: Georgia, serif; }
                               .subtitle { font-size: 13px; font-weight: bold; color: #ffffff; margin-top: 24px; opacity: 0.85; }
-                              img { max-width: 100%; height: auto; border-radius: 20px; padding: 12px; background-color: #ffffff; }
+                              .qr-container { display: flex; justify-content: center; align-items: center; background-color: #ffffff; padding: 16px; border-radius: 20px; max-width: 200px; margin: 0 auto; }
+                              .qr-container svg { width: 100%; height: auto; }
                             </style>
                           </head>
                           <body>
                             <div class="card">
                               <div class="brand">Café Coffee Break</div>
                               <div class="title">${qrModalTable.name}</div>
-                              <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(getTableLink(qrModalTable.id))}" />
+                              <div class="qr-container">${qrSvgHtml}</div>
                               <div class="subtitle">Scan table QR stand to request service instantly</div>
                             </div>
                             <script>window.onload = function() { window.print(); window.close(); }</script>
@@ -1183,9 +1297,17 @@ export default function AdminDashboard() {
                     }
                   }
                 }}
-                className="py-2.5 rounded-xl btn-red text-[10px] uppercase tracking-wider font-black cursor-pointer shadow-md"
+                className="py-2.5 rounded-xl btn-red text-[9px] uppercase tracking-wider font-black cursor-pointer shadow-md text-center"
               >
-                Print Stand
+                Print
+              </button>
+
+              <button 
+                onClick={() => downloadQrPng(qrModalTable.id, qrModalTable.name)}
+                className="py-2.5 rounded-xl glass-btn text-[9px] uppercase tracking-wider font-black cursor-pointer shadow-md text-center flex items-center justify-center gap-1"
+              >
+                <Download className="w-3 h-3" />
+                <span>Save</span>
               </button>
               
               <button 
@@ -1193,9 +1315,9 @@ export default function AdminDashboard() {
                   navigator.clipboard.writeText(getTableLink(qrModalTable.id));
                   alert("Table URL copied to clipboard!");
                 }}
-                className="py-2.5 rounded-xl glass-btn text-[10px] uppercase tracking-wider cursor-pointer"
+                className="py-2.5 rounded-xl glass-btn text-[9px] uppercase tracking-wider font-black cursor-pointer text-center"
               >
-                Copy URL
+                Copy
               </button>
             </div>
 
